@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "170396990370",
+    "firebase_url": "https://pabili-delivery.firebaseio.com",
+    "project_id": "pabili-delivery",
+    "storage_bucket": "pabili-delivery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170396990370:android:9b1decb1e2cca53376d0fb",
+        "android_client_info": {
+          "package_name": "com.pickup.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170396990370-u11self55dsfbqaudkrll71f1n3n0666.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pickup.delivery",
+            "certificate_hash": "acd664a2f56cc7b03faa48109b50af33b379a8bd"
+          }
+        },
+        {
+          "client_id": "170396990370-d5aa0o9vhd70l09bs69tvt6b6k50r6lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWR_zQa5uqqy-klDGuoMOnR8Dlmz8XUtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170396990370-d5aa0o9vhd70l09bs69tvt6b6k50r6lt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
