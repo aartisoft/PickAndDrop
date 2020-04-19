@@ -5,7 +5,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bgo">
+        android:background="@drawable/splash_new_bg">
+
+        <RelativeLayout
+            android:background="@color/bg_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </RelativeLayout>
 
         <ScrollView
             android:id="@+id/scrollView"

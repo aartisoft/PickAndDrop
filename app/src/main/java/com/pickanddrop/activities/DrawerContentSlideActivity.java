@@ -63,10 +63,12 @@ import com.pickanddrop.api.APIInterface;
 import com.pickanddrop.databinding.DrawerLayoutBinding;
 import com.pickanddrop.dto.OtherDTO;
 import com.pickanddrop.fragment.ChangePassword;
+import com.pickanddrop.fragment.ContactFragment;
 import com.pickanddrop.fragment.CurrentList;
 import com.pickanddrop.fragment.DriverHome;
 import com.pickanddrop.fragment.Home;
 import com.pickanddrop.fragment.Profile;
+import com.pickanddrop.fragment.TermsFragment;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.ImageViewCircular;
@@ -374,6 +376,8 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         @Override
         public void onItemClicked(View view, int position) {
             CurrentList currentList = new CurrentList();
+            TermsFragment termsFragment = new TermsFragment();
+
             Bundle bundle = new Bundle();
             if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.setting))) {
                 replaceFragmentWithoutBack(R.id.container_main, new ChangePassword(), "ChangePassword");
@@ -409,21 +413,26 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
                 replaceFragmentWithoutBack(R.id.container_main, currentList, "CurrentList");
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
-//            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.guidline_procedure))) {
+            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.guidline_procedure))) {
+                bundle.putString(PN_VALUE, "Guide");
+                termsFragment.setArguments(bundle);
+                replaceFragmentWithoutBack(R.id.container_main, termsFragment, "termsFragment");
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.terms_conditions))) {
+                bundle.putString(PN_VALUE, "Terms");
+                termsFragment.setArguments(bundle);
+                replaceFragmentWithoutBack(R.id.container_main, termsFragment, "termsFragment");
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.contact_us))) {
+                replaceFragmentWithoutBack(R.id.container_main, new ContactFragment(), "Contact");
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+//            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.faq))) {
 //                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //            }
-//            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.terms_conditions))) {
-//                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.contact_us))) {
-//                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.faq))) {
-//                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
-
 
         }
     };

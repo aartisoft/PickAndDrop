@@ -3,16 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_margin_medium"
         android:fillViewport="true"
-        android:background="@drawable/bgo">
+        android:background="@drawable/splash_new_bg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:background="@color/bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </RelativeLayout>
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"

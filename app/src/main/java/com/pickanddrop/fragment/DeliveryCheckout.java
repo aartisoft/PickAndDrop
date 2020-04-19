@@ -2,6 +2,7 @@ package com.pickanddrop.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -75,14 +76,17 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
     private void setValues() {
 
-
-
         deliveryBookBinding.etPickupAddress.setText(deliveryDTO.getPickupaddress());
         deliveryBookBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getDeliveryCost());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" 20");
         try {
-            deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
+            }else {
+                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+300);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -187,13 +191,27 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
           //  map.put("parcel_lenght", deliveryDTO.getParcelLenght());
           //  map.put("parcel_weight", deliveryDTO.getParcelWeight());
             map.put("delivery_type", deliveryDTO.getDeliveryType());
-            map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
-            map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
+            if (deliveryDTO.getDeliveryDistance()!=null){
+                map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
+            }else {
+                map.put("delivery_distance", " ");
+            }
+
 
             try {
-                map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                    map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
+                }else {
+                    map.put("delivery_cost", "300");
+                }
+
             } catch (Exception e) {
-                map.put("delivery_cost", deliveryDTO.getDeliveryCost());
+
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                    map.put("delivery_cost", deliveryDTO.getDeliveryCost());
+                }else {
+                    map.put("delivery_cost", "300");
+                }
                 e.printStackTrace();
             }
 
@@ -201,12 +219,26 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("vehicle_type", deliveryDTO.getVehicleType());
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());
-            map.put("dropOffLong", deliveryDTO.getDropoffLong());
-            map.put("dropOffLat", deliveryDTO.getDropoffLat());
+
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                map.put("dropOffLong", deliveryDTO.getDropoffLong());
+                map.put("dropOffLat", deliveryDTO.getDropoffLat());
+                map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
+            }else {
+                map.put("dropOffLong", "");
+                map.put("dropOffLat", "");
+                map.put("driver_delivery_cost", "");
+            }
+
+
             map.put("delivery_time", deliveryDTO.getDeliveryTime());
             map.put(PN_APP_TOKEN, APP_TOKEN);
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                map.put("dropoff_country_code", deliveryDTO.getDropoffCountryCode());
+            }else {
+                map.put("dropoff_country_code"," ");
+            }
 
-            map.put("dropoff_country_code", deliveryDTO.getDropoffCountryCode());
             map.put("pickup_country_code", deliveryDTO.getPickupCountryCode());
 
             APIInterface apiInterface = APIClient.getClient();
@@ -222,7 +254,10 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                                 utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((DrawerContentSlideActivity) context).popAllFragment();
+                                       // ((DrawerContentSlideActivity) context).popAllFragment();
+                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
                                     }
 
                                     @Override

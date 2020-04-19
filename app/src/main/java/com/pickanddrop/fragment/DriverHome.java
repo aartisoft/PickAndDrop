@@ -273,7 +273,7 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                     mMap.clear();
                                     for (int i = 0; i < deliveryDTOArrayList.size(); i++) {
                                         int imageView;
-                                        if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("2HOUR")) {
+                                        if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("shop&deliver")) {
                                             imageView = R.drawable.pin1;
                                         }
 //                                        else if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("4HOUR")) {
@@ -315,12 +315,14 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                         int image;
                                         if (data.getVehicleType().equalsIgnoreCase(getString(R.string.bike))) {
                                             image = R.drawable.bike_list;
-                                        } else if (data.getVehicleType().equalsIgnoreCase(getString(R.string.car))) {
-                                            image = R.drawable.car_list;
-                                        } else if (data.getVehicleType().equalsIgnoreCase(getString(R.string.van))) {
-                                            image = R.drawable.van_03;
-                                        } else {
-                                            image = R.drawable.truck_list;
+                                        }
+//                                        else if (data.getVehicleType().equalsIgnoreCase(getString(R.string.car))) {
+//                                            image = R.drawable.car_list;
+//                                        } else if (data.getVehicleType().equalsIgnoreCase(getString(R.string.van))) {
+//                                            image = R.drawable.van_03;
+//                                        }
+                                        else {
+                                            image = R.drawable.bike_list;
                                         }
                                         ivVehicle.setImageResource(image);
 

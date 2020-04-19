@@ -259,7 +259,7 @@
 
     <string name="vehicle_type">Vehicle Type</string>
     <string name="car">Car</string>
-    <string name="bike">Bike</string>
+    <string name="bike">bike</string>
     <string name="van">Van</string>
     <string name="truck">Truck</string>
 
@@ -338,4 +338,6 @@
     <string name="service_charge_desc">₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.</string>
     <string name="faq">FAQ</string>
     <string name="accept_order">Accepted Orders</string>
+    <string name="subject">Subject</string>
+    <string name="descri">Description</string>
 </resources>
