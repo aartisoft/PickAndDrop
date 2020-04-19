@@ -19,9 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.pickanddrop.R;
 import com.pickanddrop.activities.DrawerContentSlideActivity;
@@ -48,13 +51,14 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateOrderSecond extends BaseFragment implements AppConstants, View.OnClickListener {
+public class CreateOrderSecond extends BaseFragment implements AppConstants, View.OnClickListener , GoogleApiClient.OnConnectionFailedListener{
 
     private Context context;
     private AppSession appSession;
     private Utilities utilities;
     private CreateOrderTwoBinding createOrderTwoBinding;
-    private String countryCode = "", dropOffLat = "", dropOffLong = "", companyName = "", firstName = "", lastName = "", mobile = "", dropOffAddress = "", dropOffSpecialInstruction = "", vehicleType = "", parcelHeight = "", parcelWidth = "", parcelWeight = "", parcelLenght = "";
+    private String countryCode = "", dropOffLat = "", dropOffLong = "", companyName = "", firstName = "", lastName = "", mobile = "", dropOffAddress = "", dropOffSpecialInstruction = "",
+            vehicleType = "", parcelHeight = "", parcelWidth = "", parcelWeight = "", parcelLenght = "";
     private DeliveryDTO.Data deliveryDTO;
     private PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
     private static final int REQUEST_PICK_PLACE = 1142;
@@ -64,6 +68,7 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
     private String TAG = CreateOrderSecond.class.getName();
     private OtherDTO otherDTO;
     private Double totalDeliveryCost = 0.0, driverDeliveryCost = 0.0;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +87,9 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         createOrderTwoBinding = DataBindingUtil.inflate(inflater, R.layout.create_order_two, container, false);
+
+
+
         return createOrderTwoBinding.getRoot();
     }
 
@@ -109,10 +117,10 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
         createOrderTwoBinding.etLastName.setText(deliveryDTO.getDropoffLastName());
         createOrderTwoBinding.etMobile.setText(deliveryDTO.getDropoffMobNumber());
         createOrderTwoBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
-        createOrderTwoBinding.etParcelWeight.setText(deliveryDTO.getParcelWeight());
-        createOrderTwoBinding.etParcelLength.setText(deliveryDTO.getParcelLenght());
-        createOrderTwoBinding.etParcelWidth.setText(deliveryDTO.getParcelWidth());
-        createOrderTwoBinding.etParcelHeight.setText(deliveryDTO.getParcelHeight());
+       // createOrderTwoBinding.etParcelWeight.setText(deliveryDTO.getParcelWeight());
+       // createOrderTwoBinding.etParcelLength.setText(deliveryDTO.getParcelLenght());
+       // createOrderTwoBinding.etParcelWidth.setText(deliveryDTO.getParcelWidth());
+       // createOrderTwoBinding.etParcelHeight.setText(deliveryDTO.getParcelHeight());
         createOrderTwoBinding.etDropSpecialInst.setText(deliveryDTO.getDropoffSpecialInst());
 
         //createOrderTwoBinding.ccp.setCountryForPhoneCode(Integer.parseInt(deliveryDTO.getDropoffCountryCode()));
@@ -198,8 +206,8 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
         hashMap1 = new HashMap<>();
         hashMap1.put(PN_NAME, "");
         hashMap1.put(PN_VALUE, getResources().getString(R.string.bike));
+        vehicleList.add(hashMap1);
 
-//        vehicleList.add(hashMap1);
 //        hashMap1 = new HashMap<>();
 //        hashMap1.put(PN_NAME, "");
 //        hashMap1.put(PN_VALUE, getResources().getString(R.string.car));
@@ -247,10 +255,10 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                 lastName = createOrderTwoBinding.etLastName.getText().toString();
                 mobile = createOrderTwoBinding.etMobile.getText().toString();
                 dropOffAddress = createOrderTwoBinding.etDropoffAddress.getText().toString();
-                parcelWeight = createOrderTwoBinding.etParcelWeight.getText().toString();
-                parcelLenght = createOrderTwoBinding.etParcelLength.getText().toString();
-                parcelWidth = createOrderTwoBinding.etParcelWidth.getText().toString();
-                parcelHeight = createOrderTwoBinding.etParcelHeight.getText().toString();
+               // parcelWeight = createOrderTwoBinding.etParcelWeight.getText().toString();
+               // parcelLenght = createOrderTwoBinding.etParcelLength.getText().toString();
+               // parcelWidth = createOrderTwoBinding.etParcelWidth.getText().toString();
+               // parcelHeight = createOrderTwoBinding.etParcelHeight.getText().toString();
                 dropOffSpecialInstruction = createOrderTwoBinding.etDropSpecialInst.getText().toString();
 
                 if (isValid()) {
@@ -262,10 +270,10 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                     deliveryDTO.setDropoffLastName(lastName);
                     deliveryDTO.setDropoffMobNumber(mobile);
                     deliveryDTO.setDropoffaddress(dropOffAddress);
-                    deliveryDTO.setParcelHeight(parcelHeight);
-                    deliveryDTO.setParcelLenght(parcelLenght);
-                    deliveryDTO.setParcelWeight(parcelWeight);
-                    deliveryDTO.setParcelWidth(parcelWidth);
+                  //  deliveryDTO.setParcelHeight(parcelHeight);
+                   // deliveryDTO.setParcelLenght(parcelLenght);
+                   // deliveryDTO.setParcelWeight(parcelWeight);
+                   // deliveryDTO.setParcelWidth(parcelWidth);
                     deliveryDTO.setDropoffSpecialInst(dropOffSpecialInstruction);
                     deliveryDTO.setVehicleType(vehicleType);
                     deliveryDTO.setDropoffLat(dropOffLat);
@@ -410,23 +418,27 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_drop_address), getString(R.string.ok), false);
             createOrderTwoBinding.etDropoffAddress.requestFocus();
             return false;
-        } else if (parcelHeight == null || parcelHeight.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_height), getString(R.string.ok), false);
-            createOrderTwoBinding.etParcelHeight.requestFocus();
-            return false;
-        } else if (parcelWidth == null || parcelWidth.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_width), getString(R.string.ok), false);
-            createOrderTwoBinding.etParcelWidth.requestFocus();
-            return false;
-        } else if (parcelLenght == null || parcelLenght.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_length), getString(R.string.ok), false);
-            createOrderTwoBinding.etParcelLength.requestFocus();
-            return false;
-        } else if (parcelWeight == null || parcelWeight.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_weight), getString(R.string.ok), false);
-            createOrderTwoBinding.etParcelWeight.requestFocus();
-            return false;
-        } else if (vehicleType == null || vehicleType.equals("")) {
+        }
+
+//        else if (parcelHeight == null || parcelHeight.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_height), getString(R.string.ok), false);
+//            createOrderTwoBinding.etParcelHeight.requestFocus();
+//            return false;
+//        } else if (parcelWidth == null || parcelWidth.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_width), getString(R.string.ok), false);
+//            createOrderTwoBinding.etParcelWidth.requestFocus();
+//            return false;
+//        } else if (parcelLenght == null || parcelLenght.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_length), getString(R.string.ok), false);
+//            createOrderTwoBinding.etParcelLength.requestFocus();
+//            return false;
+//        } else if (parcelWeight == null || parcelWeight.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_parcel_weight), getString(R.string.ok), false);
+//            createOrderTwoBinding.etParcelWeight.requestFocus();
+//            return false;
+//        }
+
+        else if (vehicleType == null || vehicleType.equals("")) {
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_vehicle), getString(R.string.ok), false);
             createOrderTwoBinding.spType.requestFocus();
             return false;
@@ -520,5 +532,16 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                 }
             });
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

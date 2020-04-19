@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pickanddrop.R;
+import com.pickanddrop.fragment.DriverHome;
+import com.pickanddrop.fragment.Home;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.OnItemClickListener;
@@ -53,6 +55,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> im
         Log.e(getClass().getName(),"Single Image >>>>>>>>>>"+menuLIst.get(position).get(PN_VALUE));
         if (menuLIst.get(position).get(PN_VALUE) != null && !menuLIst.get(position).get(PN_VALUE).equals(""))
             viewHolder.ivMenu.setImageResource(Integer.parseInt(menuLIst.get(position).get(PN_VALUE)));
+
 
 
 //        RequestOptions requestOptions = new RequestOptions();

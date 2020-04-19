@@ -74,6 +74,9 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
     }
 
     private void setValues() {
+
+
+
         deliveryBookBinding.etPickupAddress.setText(deliveryDTO.getPickupaddress());
         deliveryBookBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getDeliveryCost());
@@ -88,34 +91,42 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         deliveryBookBinding.etDeliveryTime.setText(deliveryDTO.getDeliveryTime());
         deliveryBookBinding.etDistance.setText(deliveryDTO.getDeliveryDistance() +" "+ getString(R.string.km));
 
+        if (deliveryDTO.getVehicleType()==null){
+            deliveryDTO.setVehicleType("bike");
+        }
         if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.bike))) {
             deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.llVan.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.llTruck.setAlpha(Float.parseFloat("0.4"));
-        } else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.car))) {
-            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llVan.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llTruck.setAlpha(Float.parseFloat("0.4"));
-        } else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.van))) {
-            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llTruck.setAlpha(Float.parseFloat("0.4"));
-        } else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.truck))) {
-            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llVan.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
         }
+//        else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.car))) {
+//            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llVan.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llTruck.setAlpha(Float.parseFloat("0.4"));
+//        } else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.van))) {
+//            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llTruck.setAlpha(Float.parseFloat("0.4"));
+//        } else if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.truck))) {
+//            deliveryBookBinding.llBike.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llVan.setAlpha(Float.parseFloat("0.4"));
+//            deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
+//        }
 
 
-        if (deliveryDTO.getDeliveryType().equalsIgnoreCase("2HOUR")) {
-            deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
+        if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")) {
+            //deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
-        } else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("4HOUR")) {
-            deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
+            deliveryBookBinding.tvServicePriText.setText("₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.");
+        }
+       // else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("4HOUR")) {
+        //    deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
+        //    deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
+       // }
+        else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("pickup&deliver")) {
             deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
-        } else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("SAMEDAY")) {
-            deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
+           // deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
+            deliveryBookBinding.tvServicePriText.setText("₱250 per transaction +₱20/km in excess of 10 km Exemptions applied for items too heavy or too big to be carried by single travel.");
         }
     }
 
@@ -162,15 +173,19 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("item_quantity", deliveryDTO.getItemQuantity());
             map.put("delivery_date", deliveryDTO.getDeliveryDate());
             map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
-            map.put("dropoff_first_name", deliveryDTO.getDropoffFirstName());
-            map.put("dropoff_last_name", deliveryDTO.getDropoffLastName());
-            map.put("dropoff_mob_number", deliveryDTO.getDropoffMobNumber());
-            map.put("dropoff_special_inst", deliveryDTO.getDropoffSpecialInst());
-            map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
-            map.put("parcel_height", deliveryDTO.getParcelHeight());
-            map.put("parcel_width", deliveryDTO.getParcelWidth());
-            map.put("parcel_lenght", deliveryDTO.getParcelLenght());
-            map.put("parcel_weight", deliveryDTO.getParcelWeight());
+
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                map.put("dropoff_first_name", deliveryDTO.getDropoffFirstName());
+                map.put("dropoff_last_name", deliveryDTO.getDropoffLastName());
+                map.put("dropoff_mob_number", deliveryDTO.getDropoffMobNumber());
+                map.put("dropoff_special_inst", deliveryDTO.getDropoffSpecialInst());
+                map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
+            }
+
+            //map.put("parcel_height", deliveryDTO.getParcelHeight());
+           // map.put("parcel_width", deliveryDTO.getParcelWidth());
+          //  map.put("parcel_lenght", deliveryDTO.getParcelLenght());
+          //  map.put("parcel_weight", deliveryDTO.getParcelWeight());
             map.put("delivery_type", deliveryDTO.getDeliveryType());
             map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
             map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
@@ -182,7 +197,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                 e.printStackTrace();
             }
 
-            map.put("dropoff_comapny_name", deliveryDTO.getDropoffComapnyName());
+           // map.put("dropoff_comapny_name", deliveryDTO.getDropoffComapnyName());
             map.put("vehicle_type", deliveryDTO.getVehicleType());
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());

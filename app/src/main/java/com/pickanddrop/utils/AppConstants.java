@@ -44,8 +44,8 @@ public interface AppConstants {
 
     String ENGLISH = "en";
 
-    String BASE_URL = "http://freebizoffer.com/apptech/pickanddeliver/admin/index.php/ApiController/";
-    String IMAGE_URL = "http://freebizoffer.com/apptech/pickanddeliver/admin/image/";
+    String BASE_URL = "http://pabiliph.com/admin_panel/ApiController/";
+    String IMAGE_URL = "http://pabiliph.com/admin_panel/image/";
     String APP_TOKEN = "COURIERAPP-30062016";
 
 
@@ -56,6 +56,7 @@ public interface AppConstants {
     String DRIVER = "2";
 
     String PN_EMAIL = "email";
+    String PN_phone = "phone";
     String PN_PASSWORD = "password";
     String PN_DEVICE_TYPE = "device_type";
     String PN_APP_TOKEN = "code";

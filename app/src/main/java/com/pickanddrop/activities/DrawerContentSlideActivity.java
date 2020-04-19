@@ -251,6 +251,7 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
 
         if (appSession.getUserType().equals(DRIVER)) {
             replaceFragmentWithoutBack(R.id.container_main, new DriverHome(), "DriverHome");
+
         } else {
             replaceFragmentWithoutBack(R.id.container_main, new Home(), "Home");
         }
@@ -276,10 +277,20 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         stringHashMap.put(PN_NAME, getString(R.string.home));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.home));
         menuList.add(stringHashMap);
-        stringHashMap = new HashMap<>();
-        stringHashMap.put(PN_NAME, getString(R.string.cur_delivery));
-        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.deliverys));
-        menuList.add(stringHashMap);
+
+        if (appSession.getUserType().equals(DRIVER)) {
+            stringHashMap = new HashMap<>();
+            stringHashMap.put(PN_NAME, getString(R.string.accept_order));
+            stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
+            menuList.add(stringHashMap);
+
+        } else {
+            stringHashMap = new HashMap<>();
+            stringHashMap.put(PN_NAME, getString(R.string.cur_delivery));
+            stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.deliverys));
+            menuList.add(stringHashMap);
+        }
+
         stringHashMap = new HashMap<>();
         stringHashMap.put(PN_NAME, getString(R.string.delivery_history));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.history));
@@ -297,10 +308,18 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.setting));
         menuList.add(stringHashMap);
 
-        stringHashMap = new HashMap<>();
-        stringHashMap.put(PN_NAME, getString(R.string.guidline_procedure));
-        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
-        menuList.add(stringHashMap);
+        if (appSession.getUserType().equals(DRIVER)) {
+            stringHashMap = new HashMap<>();
+            stringHashMap.put(PN_NAME, getString(R.string.guidline_procedure));
+            stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
+            menuList.add(stringHashMap);
+
+        } else {
+            stringHashMap = new HashMap<>();
+            stringHashMap.put(PN_NAME, getString(R.string.faq));
+            stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
+            menuList.add(stringHashMap);
+        }
 
         stringHashMap = new HashMap<>();
         stringHashMap.put(PN_NAME, getString(R.string.terms_conditions));
@@ -311,7 +330,6 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         stringHashMap.put(PN_NAME, getString(R.string.contact_us));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_contact_phone));
         menuList.add(stringHashMap);
-
 
         stringHashMap = new HashMap<>();
         stringHashMap.put(PN_NAME, getString(R.string.logout));
@@ -348,6 +366,7 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerViewId, fragment, fragmentTag)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
@@ -375,6 +394,9 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
             } else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.cur_delivery))) {
                 replaceFragmentWithoutBack(R.id.container_main, currentList, "CurrentList");
                 drawerLayout.closeDrawer(GravityCompat.START);
+            }else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.accept_order))) {
+                replaceFragmentWithoutBack(R.id.container_main, currentList, "CurrentList");
+                drawerLayout.closeDrawer(GravityCompat.START);
             } else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.notification))) {
                 bundle.putString(PN_NAME, PN_NAME);
                 currentList.setArguments(bundle);
@@ -395,6 +417,9 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
 //                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //            }else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.contact_us))) {
+//                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//            }else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.faq))) {
 //                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //            }
@@ -504,12 +529,38 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                super.onBackPressed();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            if (fragmentManager.getBackStackEntryCount() > 0) {
+//                super.onBackPressed();
+//            } else {
+//                Exit();
+//            }
+
+            if (appSession.getUserType().equals(DRIVER)) {
+
+                DriverHome myFragment = (DriverHome) getSupportFragmentManager().findFragmentByTag("DriverHome");
+                if (myFragment != null && myFragment.isVisible()) {
+                    // add your code here
+                    //finish();
+                    Exit();
+                } else {
+                    super.onBackPressed();
+                }
+
             } else {
-                Exit();
+                Home myFragment = (Home) getSupportFragmentManager().findFragmentByTag("Home");
+                if (myFragment != null && myFragment.isVisible()) {
+                    // add your code here
+                    //finish();
+                    Exit();
+                } else {
+                    super.onBackPressed();
+                }
             }
+
+
+
+
         }
     }
 
@@ -518,7 +569,11 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     }
 
     private void Exit() {
-        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name)).setMessage(getString(R.string.exit_text)).setIcon((int) R.mipmap.ic_launcher).setPositiveButton(getResources().getString(R.string.yes), new C03424()).setNegativeButton(getResources().getString(R.string.no), new C03435()).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
+                .setMessage(getString(R.string.exit_text))
+                .setIcon((int) R.drawable.pabili_logo)
+                .setPositiveButton(getResources().getString(R.string.yes), new C03424())
+                .setNegativeButton(getResources().getString(R.string.no), new C03435()).show();
     }
 
     @Override
@@ -642,6 +697,8 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
                 .enableAutoManage(this, this)
                 .addApi(LocationServices.API)
                 .build();
+        mGoogleApiClient.connect();
+
         createLocationRequest();
     }
 
@@ -681,8 +738,11 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
         LocationRequestHelper.setRequesting(this, false);
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
-                getPendingIntent());
+        try {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
+                    getPendingIntent());
+        }catch (Exception e){
+        }
     }
 
     private void updateButtonsState(boolean requestingLocationUpdates) {
@@ -701,8 +761,10 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
 
-        if (appSession.getUserType().equals(CUSTOMER))
-            removeLocationUpdates();
+        if (appSession.getUserType().equals(CUSTOMER)){
+                removeLocationUpdates();
+        }
+
         super.onStop();
     }
 
@@ -803,5 +865,18 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
     }
 }

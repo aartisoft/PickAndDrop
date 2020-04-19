@@ -325,15 +325,17 @@
 
     <string name="not_available">This delivery option is not available at this time.</string>
 
-<!--    //<string name="google_maps_key">AIzaSyC7NOJ5VbOZ2uzheASfYPZVPMniO0QAcys</string>-->
-    <string name="google_maps_key">AIzaSyCgdluX9Wh0eW5sNbUpJv5KhY4GQXWktg4</string>
+    //<string name="google_maps_key">AIzaSyC7NOJ5VbOZ2uzheASfYPZVPMniO0QAcys</string>
+<!--    <string name="google_maps_key">AIzaSyCgdluX9Wh0eW5sNbUpJv5KhY4GQXWktg4</string>-->
     <string name="cell_phone_number">Cellphone number</string>
     <string name="email_optional">Email (Optional)</string>
     <string name="provinc">Province</string>
     <string name="guidline_procedure">Guidelines &amp; Procedures</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
     <string name="contact_us">Contact Us</string>
-    <string name="shop_deliver_text_maps">Pabili (shop&amp;deliver)></string>
+    <string name="shop_deliver_text_maps">Pabili (Shop&amp;Deliver)></string>
     <string name="pick_deliver_text_maps">Pickup&amp;Deliver></string>
     <string name="service_charge_desc">₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.</string>
+    <string name="faq">FAQ</string>
+    <string name="accept_order">Accepted Orders</string>
 </resources>

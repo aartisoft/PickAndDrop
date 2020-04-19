@@ -1,5 +1,6 @@
 package com.pickanddrop.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -9,10 +10,12 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +33,7 @@ import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.Utilities;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +46,9 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
     private AppSession appSession;
     private Utilities utilities;
     private CreateOrderOneBinding createOrderOneBinding;
-    private String countryCode = "", deliveryType = "", pickupLat = "", pickupLong = "", companyName = "", firstName = "", lastName = "", mobile = "", pickUpAddress = "", itemDescription = "", itemQuantity = "", deliDate = "", deliTime = "", specialInstruction = "";
+    private String countryCode = "", deliveryType = "", pickupLat = "", pickupLong = "", companyName = "", firstName = "",
+            lastName = "", mobile = "", pickUpAddress = "", itemDescription = "", itemQuantity = "", deliDate = "",
+            deliTime = "", specialInstruction = "";
     private PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
     private static final int REQUEST_PICK_PLACE = 2345;
     private int mYear, mMonth, mDay;
@@ -86,28 +92,77 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
 
         if (rescheduleStatus) {
             setValues();
+        } else if (!appSession.getUserType().equals(DRIVER)) {
+            setValues();
         }
+
+
+        createOrderOneBinding.etPickupAddress.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (createOrderOneBinding.etPickupAddress.getRight() - createOrderOneBinding.etPickupAddress.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // your action here
+
+                        try {
+                            startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
+                        } catch
+                        (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException
+                                        e) {
+                            e.printStackTrace();
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     private void setValues() {
-       // createOrderOneBinding.etCompany.setText(data.getPickupComapnyName());
-        createOrderOneBinding.etFirstName.setText(data.getPickupFirstName());
-        createOrderOneBinding.etLastName.setText(data.getPickupLastName());
-        createOrderOneBinding.etMobile.setText(data.getPickupMobNumber());
-        createOrderOneBinding.etPickupAddress.setText(data.getPickupaddress());
-        createOrderOneBinding.etItemDescription.setText(data.getItemDescription());
-        createOrderOneBinding.etItemQuantity.setText(data.getItemQuantity());
-        createOrderOneBinding.etDeliveryDate.setText(data.getDeliveryDate());
-        createOrderOneBinding.etDeliveryTime.setText(data.getDeliveryTime());
-        createOrderOneBinding.etPickSpecialInst.setText(data.getPickupSpecialInst());
+
+        if (appSession.getUserType().equals(DRIVER)) {
+
+            // createOrderOneBinding.etCompany.setText(data.getPickupComapnyName());
+            createOrderOneBinding.etFirstName.setText(data.getPickupFirstName());
+            createOrderOneBinding.etLastName.setText(data.getPickupLastName());
+            createOrderOneBinding.etMobile.setText(data.getPickupMobNumber());
+            createOrderOneBinding.etPickupAddress.setText(data.getPickupaddress());
+            createOrderOneBinding.etItemDescription.setText(data.getItemDescription());
+            createOrderOneBinding.etItemQuantity.setText(data.getItemQuantity());
+            createOrderOneBinding.etDeliveryDate.setText(data.getDeliveryDate());
+            createOrderOneBinding.etDeliveryTime.setText(data.getDeliveryTime());
+            createOrderOneBinding.etPickSpecialInst.setText(data.getPickupSpecialInst());
+
+            deliveryType = data.getDeliveryType();
+            pickupLat = data.getPickupLat();
+            pickupLong = data.getPickupLong();
+
+        } else {
+
+            //createOrderOneBinding.etCompany.setText(appSession.getUser().getData().getCompanyName());
+            createOrderOneBinding.etFirstName.setText(appSession.getUser().getData().getFirstname());
+            createOrderOneBinding.etLastName.setText(appSession.getUser().getData().getLastname());
+            //createOrderOneBinding.etEmail.setText(appSession.getUser().getData().getEmail());
+            createOrderOneBinding.etMobile.setText(appSession.getUser().getData().getPhone());
+            createOrderOneBinding.etPickupAddress.setText(appSession.getUser().getData().getHouseNo() + ", " +
+                    appSession.getUser().getData().getStreetName() + ", " + appSession.getUser().getData().getCity() + ", " +
+                    appSession.getUser().getData().getState() + ", " + appSession.getUser().getData().getCountryName() + ", " +
+                    appSession.getUser().getData().getPostcode());
+        }
 
         //createOrderOneBinding.ccp.setCountryForPhoneCode(Integer.parseInt(data.getPickupCountryCode()));
 
-        deliveryType = data.getDeliveryType();
-        pickupLat = data.getPickupLat();
-        pickupLong = data.getPickupLong();
 
-        createOrderOneBinding.etPickupAddress.setEnabled(false);
+        //createOrderOneBinding.etPickupAddress.setEnabled(false);
     }
 
     private void initToolBar() {
@@ -131,7 +186,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                 Utilities.hideKeyboard(createOrderOneBinding.btnNext);
                 //countryCode = createOrderOneBinding.ccp.getSelectedCountryCode();
                 countryCode = createOrderOneBinding.ccp.getText().toString();
-                Log.e(TAG, ">>>>>>>>>>>>>>"+countryCode);
+                Log.e(TAG, ">>>>>>>>>>>>>>" + countryCode);
 
                 //companyName = createOrderOneBinding.etCompany.getText().toString();
                 firstName = createOrderOneBinding.etFirstName.getText().toString();
@@ -146,45 +201,75 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
 
                 if (isValid()) {
 
-                        CreateOrderSecond createOrderSecond = new CreateOrderSecond();
-                        DeliveryDTO.Data deliveryDTO = null;
-                        Bundle bundle = new Bundle();
-                        if (rescheduleStatus) {
-                            deliveryDTO = data;
-                            bundle.putString("rescheduleStatus", "rescheduleStatus");
-                        } else {
-                            deliveryDTO = new DeliveryDTO().new Data();
+                    CreateOrderSecond createOrderSecond = new CreateOrderSecond();
+                    DeliveryCheckout deliveryCheckout = new DeliveryCheckout();
+                    DeliveryDTO.Data deliveryDTO = null;
+                    Bundle bundle = new Bundle();
+                    if (rescheduleStatus) {
+                        deliveryDTO = data;
+                        bundle.putString("rescheduleStatus", "rescheduleStatus");
+                    } else {
+                        deliveryDTO = new DeliveryDTO().new Data();
+                    }
+
+                    // deliveryDTO.setPickupComapnyName(companyName);
+                    deliveryDTO.setPickupFirstName(firstName);
+                    deliveryDTO.setPickupLastName(lastName);
+                    deliveryDTO.setPickupMobNumber(mobile);
+                    deliveryDTO.setPickupaddress(pickUpAddress);
+                    deliveryDTO.setDeliveryDate(deliDate);
+                    deliveryDTO.setDeliveryTime(deliTime);
+                    deliveryDTO.setPickupSpecialInst(specialInstruction);
+
+                    if (pickupLat.equalsIgnoreCase("") &&
+                            pickupLong.equalsIgnoreCase("")){
+
+                        Geocoder coder = new Geocoder(getActivity());
+                        List<Address> address;
+                        try {
+                            address = coder.getFromLocationName(appSession.getUser().getData().getPostcode(),5);
+
+                            Address location=address.get(0);
+                            location.getLatitude();
+                            location.getLongitude();
+
+                            pickupLat=String.valueOf( location.getLatitude());
+                            pickupLat=String.valueOf( location.getLongitude());
+
+                            deliveryDTO.setPickupLat(String.valueOf( location.getLatitude()));
+                            deliveryDTO.setPickupLong(String.valueOf( location.getLongitude()));
+
+                            Log.e("lat_lng",""+ location.getLatitude()+" "+ location.getLongitude());
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
 
-                        // deliveryDTO.setPickupComapnyName(companyName);
-                        deliveryDTO.setPickupFirstName(firstName);
-                        deliveryDTO.setPickupLastName(lastName);
-                        deliveryDTO.setPickupMobNumber(mobile);
-                        deliveryDTO.setPickupaddress(pickUpAddress);
-                        deliveryDTO.setDeliveryDate(deliDate);
-                        deliveryDTO.setDeliveryTime(deliTime);
-                        deliveryDTO.setPickupSpecialInst(specialInstruction);
-                        deliveryDTO.setPickupLat(pickupLat);
-                        deliveryDTO.setPickupLong(pickupLong);
-                        deliveryDTO.setDeliveryType(deliveryType);
-                        deliveryDTO.setItemDescription(itemDescription);
-                        deliveryDTO.setItemQuantity(itemQuantity);
-                        deliveryDTO.setPickupCountryCode(countryCode);
-
-
-                    if (deliveryType.equalsIgnoreCase("Pabili (shop&deliver)")){
-
-                        bundle.putParcelable("deliveryDTO", deliveryDTO);
-                        createOrderSecond.setArguments(bundle);
-                        addFragmentWithoutRemove(R.id.container_main, new  DeliveryCheckout(), "DeliveryCheckout");
 
                     }else {
+                        deliveryDTO.setPickupLat(pickupLat);
+                        deliveryDTO.setPickupLong(pickupLong);
+                    }
+                    deliveryDTO.setDeliveryType(deliveryType);
+                    deliveryDTO.setItemDescription(itemDescription);
+                    deliveryDTO.setItemQuantity(itemQuantity);
+                    deliveryDTO.setPickupCountryCode(countryCode);
+
+
+                    if (deliveryType.equalsIgnoreCase("shop&deliver")) {
+
+
+
+                        bundle.putParcelable("deliveryDTO", deliveryDTO);
+                        deliveryCheckout.setArguments(bundle);
+                        addFragmentWithoutRemove(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
+
+
+                    } else {
                         bundle.putParcelable("deliveryDTO", deliveryDTO);
                         createOrderSecond.setArguments(bundle);
                         addFragmentWithoutRemove(R.id.container_main, createOrderSecond, "CreateOrderSecond");
                     }
-
-
 
 
                 }
@@ -192,13 +277,13 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             case R.id.iv_back:
                 ((DrawerContentSlideActivity) context).popFragment();
                 break;
-            case R.id.et_pickup_address:
-                try {
-                    startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
-                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
-                break;
+//            case R.id.et_pickup_address:
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
+//                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
             case R.id.et_delivery_date:
                 mYear = c.get(Calendar.YEAR);
                 mMonth = c.get(Calendar.MONTH);
@@ -296,7 +381,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             String postalCode = addresses.get(0).getPostalCode();
             String knownName = addresses.get(0).getFeatureName();
 
-            return address +" "+city;
+            return address + " " + city;
         } catch (Exception e) {
             e.printStackTrace();
             return "";

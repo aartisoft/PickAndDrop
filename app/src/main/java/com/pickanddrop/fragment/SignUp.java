@@ -283,15 +283,23 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_last_name), getString(R.string.ok), false);
             signUpBinding.etLastName.requestFocus();
             return false;
-        } else if (email == null || email.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (!utilities.checkEmail(email)) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (mobile.trim().length() == 0) {
+        }
+        else if (email !=null && !email.equals("") && !email.isEmpty()) {
+           // utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
+           // signUpBinding.etEmail.requestFocus();
+            if (!utilities.checkEmail(email)) {
+                utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+                signUpBinding.etEmail.requestFocus();
+                return false;
+            }
+
+        }
+//        else if (!utilities.checkEmail(email)) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+//            signUpBinding.etEmail.requestFocus();
+//            return false;
+//        }
+        else if (mobile.trim().length() == 0) {
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
             signUpBinding.etMobile.requestFocus();
             return false;
@@ -378,15 +386,23 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_last_name), getString(R.string.ok), false);
             signUpBinding.etLastName.requestFocus();
             return false;
-        } else if (email == null || email.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (!utilities.checkEmail(email)) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (mobile.trim().length() == 0) {
+        }
+        else if (email !=null && !email.equals("") && !email.isEmpty()) {
+            // utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
+            // signUpBinding.etEmail.requestFocus();
+            if (!utilities.checkEmail(email)) {
+                utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+                signUpBinding.etEmail.requestFocus();
+                return false;
+            }
+
+        }
+//        else if (!utilities.checkEmail(email)) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+//            signUpBinding.etEmail.requestFocus();
+//            return false;
+//        }
+        else if (mobile.trim().length() == 0) {
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
             signUpBinding.etMobile.requestFocus();
             return false;

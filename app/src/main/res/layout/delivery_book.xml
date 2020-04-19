@@ -216,7 +216,7 @@
                         android:textColor="@color/white_color"
                         android:background="@drawable/two_hr"
                         android:padding="@dimen/activity_margin_normal"
-                        android:text="@string/shop_deliver_text_maps"
+                        android:text="Shop&amp;Deliver"
                         android:textSize="@dimen/text_size_normal"/>
 
                     <Button
@@ -245,7 +245,7 @@
                         android:gravity="center"
                         android:textColor="@color/white_color"
                         android:background="@drawable/same_day"
-                        android:text="@string/pick_deliver_text_maps"
+                        android:text="Pickup&amp;Deliver"
                         android:textSize="@dimen/text_size_small"/>
                 </LinearLayout>
             </LinearLayout>
@@ -365,7 +365,7 @@
                         android:layout_weight="4"
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:text="@{String.format(@string/delivery_pri).concat(@string/colon)}"
+                        android:text="@{String.format(@string/service_pri).concat(@string/colon)}"
                         android:textColor="@color/white_color" />
 
                     <EditText
@@ -382,40 +382,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/activity_margin_normal_"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_normal"
-                        android:fontFamily="@font/titillium_regular"
-                        android:padding="@dimen/activity_margin_normal"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"
-                        android:text="@{String.format(@string/service_pri).concat(@string/colon)}"
-                        android:textColor="@color/white_color" />
-
-                    <EditText
-                        android:id="@+id/et_service_charge"
-                        style="@style/edit_text_delivery_style"
-                        android:layout_width="0dp"
-                        android:layout_weight="6"
-                        android:layout_marginLeft="@dimen/text_margin_small"
-                        android:layout_height="wrap_content"
-                        android:hint=""
-                        android:focusable="false"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textCapWords" />
-
-                </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_service_pri_text"
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

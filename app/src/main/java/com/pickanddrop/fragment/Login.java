@@ -120,7 +120,7 @@ public class Login extends BaseFragment implements AppConstants, View.OnClickLis
 
             Map<String, String> map = new HashMap<>();
             map.put(PN_APP_TOKEN, APP_TOKEN);
-            map.put(PN_EMAIL, email);
+            map.put(PN_phone, email);
             map.put(PN_PASSWORD, password);
             map.put(PN_DEVICE_TOKEN, notiificationId);
             map.put(PN_DEVICE_TYPE, DEVICE_TYPE);

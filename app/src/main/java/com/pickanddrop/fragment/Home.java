@@ -249,9 +249,9 @@ public class Home extends BaseFragment implements AppConstants, View.OnClickList
                 break;
             case R.id.btn_two:
                 //bundle.putString("delivery_type", "2HOUR");
-                bundle.putString("delivery_type", "Pabili (shop&deliver)");
+                bundle.putString("delivery_type", "shop&deliver");
                 createOrderOne.setArguments(bundle);
-                addFragmentWithoutRemove(R.id.container_main, createOrderOne, "CreateOrderOne");
+                replaceFragmentWithBack(R.id.container_main, createOrderOne, "CreateOrderOne");
                 break;
 //            case R.id.btn_four:
 //                if (fourStatus) {
@@ -268,7 +268,7 @@ public class Home extends BaseFragment implements AppConstants, View.OnClickList
               //  } else {
                     bundle.putString("delivery_type", "Pickup&Deliver");
                     createOrderOne.setArguments(bundle);
-                    addFragmentWithoutRemove(R.id.container_main, createOrderOne, "CreateOrderOne");
+                replaceFragmentWithBack(R.id.container_main, createOrderOne, "CreateOrderOne");
              //   }
                 break;
         }

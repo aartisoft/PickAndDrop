@@ -18,12 +18,11 @@ public class BaseFragment extends Fragment {
 
     public void replaceFragmentWithBack(int containerViewId,
                                         Fragment fragment,
-                                        String fragmentTag,
-                                        String backStackStateName) {
+                                        String fragmentTag) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerViewId, fragment, fragmentTag)
-                .addToBackStack(backStackStateName)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 

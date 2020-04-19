@@ -193,6 +193,7 @@
                     android:lines="2"
                     android:gravity="start"
                     android:ellipsize="end"
+                    android:drawableEnd="@drawable/ic_my_location_black_24dp"
                     android:focusable="false" />
 
                 <LinearLayout
@@ -230,17 +231,25 @@
                     android:layout_marginTop="@dimen/activity_margin_normal_"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:background="@drawable/edit_profile_rect"
                     >
 
                 <EditText
                     android:id="@+id/et_item_description"
-                    style="@style/edit_text_login_style"
+                    android:background="@null"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColorHint="@color/text_hint"
+                    android:fontFamily="@font/titillium_regular"
+                    android:textColor="@color/black_color"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:autofillHints="@string/house_txt"
                     android:hint="@string/item_des_txt"
                     android:imeOptions="actionNext"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textMultiLine" />
 
                 </LinearLayout>
 
