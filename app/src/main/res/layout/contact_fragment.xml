@@ -7,6 +7,14 @@
         android:layout_height="match_parent"
         android:background="@drawable/splash_new_bg">
 
+
+        <RelativeLayout
+            android:background="@color/bg_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </RelativeLayout>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"
             android:layout_width="wrap_content"
@@ -46,13 +54,12 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/activity_margin_medium" />
 
-
         <EditText
-            android:id="@+id/et_current_password"
+            android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="@string/subject"
+            android:hint="@string/name"
             style="@style/edit_text_login_style"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
@@ -60,37 +67,36 @@
             android:imeOptions="actionNext"/>
 
         <EditText
-            android:id="@+id/et_new_password"
+            android:id="@+id/et_subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_normal_"
+            android:inputType="text"
+            android:hint="@string/subject"
+            android:autofillHints="@string/subject"
+            style="@style/edit_text_login_style"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintStart_toStartOf="@+id/guideline7"
+            app:layout_constraintTop_toBottomOf="@+id/et_name"
+            android:imeOptions="actionNext"/>
+
+        <EditText
+            android:id="@+id/et_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin_normal_"
             android:inputType="textMultiLine"
             android:hint="@string/descri"
+            style="@style/edit_text_login_style"
             android:lines="3"
             android:gravity="start"
-            android:autofillHints="@string/password"
-            style="@style/edit_text_login_style"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toBottomOf="@+id/et_current_password"
-            android:imeOptions="actionDone"/>
-
-        <EditText
-            android:visibility="gone"
-            android:id="@+id/et_repeat_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin_normal_"
-            android:inputType="textPassword"
-            android:hint="@string/confirm_password"
-            style="@style/edit_text_login_style"
-            app:layout_constraintEnd_toStartOf="@+id/guideline8"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toBottomOf="@+id/et_new_password"
+            app:layout_constraintTop_toBottomOf="@+id/et_subject"
             android:imeOptions="actionDone"/>
 
         <Button
-            android:id="@+id/btn_set_password"
+            android:id="@+id/btn_submit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submit"
@@ -98,7 +104,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
             app:layout_constraintVertical_bias="0.3"
-            app:layout_constraintTop_toBottomOf="@+id/et_repeat_password"
+            app:layout_constraintTop_toBottomOf="@+id/et_desc"
             android:minHeight="0dp"
             android:background="@drawable/button_shape"
             android:textColor="@color/yellow"

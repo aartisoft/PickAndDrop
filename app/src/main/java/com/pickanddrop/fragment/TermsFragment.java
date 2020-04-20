@@ -16,6 +16,7 @@ import com.pickanddrop.databinding.TermsFragmentBinding;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.Utilities;
 
+import static com.pickanddrop.html_page.TermsConditions.Faq;
 import static com.pickanddrop.html_page.TermsConditions.Proce_Guide;
 import static com.pickanddrop.html_page.TermsConditions.TermsCond;
 import static com.pickanddrop.utils.AppConstants.PN_VALUE;
@@ -67,6 +68,13 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
 
             binding.webview.getSettings().setJavaScriptEnabled(true);
             binding.webview.loadDataWithBaseURL("", Proce_Guide, "text/html", "UTF-8", "");
+
+        }
+        else if (status.equalsIgnoreCase("Faq")) {
+            binding.toolbarTitle.setText("FAQ");
+
+            binding.webview.getSettings().setJavaScriptEnabled(true);
+            binding.webview.loadDataWithBaseURL("", Faq, "text/html", "UTF-8", "");
 
         }
     }

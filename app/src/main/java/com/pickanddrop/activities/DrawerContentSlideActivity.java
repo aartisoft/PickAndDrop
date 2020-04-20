@@ -429,10 +429,12 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
                 replaceFragmentWithoutBack(R.id.container_main, new ContactFragment(), "Contact");
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
-//            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.faq))) {
-//                replaceFragmentWithoutBack(R.id.container_main, new GuidlineFragment, "CurrentList");
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
+            else if (menuList.get(position).get(PN_NAME).equalsIgnoreCase(getString(R.string.faq))) {
+                bundle.putString(PN_VALUE, "Faq");
+                termsFragment.setArguments(bundle);
+                replaceFragmentWithoutBack(R.id.container_main, termsFragment, "termsFragment");
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
 
         }
     };

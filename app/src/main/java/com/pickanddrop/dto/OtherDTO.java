@@ -14,6 +14,9 @@ public class OtherDTO {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("msg")
+    @Expose
+    private String msg;
     @SerializedName("vehicle")
     @Expose
     private Vehicle vehicle;
@@ -36,6 +39,14 @@ public class OtherDTO {
 
     public String getError() {
         return error;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public void setError(String error) {

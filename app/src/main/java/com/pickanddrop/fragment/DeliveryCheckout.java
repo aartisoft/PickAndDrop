@@ -84,7 +84,20 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
             }else {
-                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+300);
+                    int basecharge=300;
+                if (Integer.valueOf(deliveryDTO.getItemQuantity())<3000){
+                    deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+basecharge);
+                }else if (Integer.valueOf(deliveryDTO.getItemQuantity())>3000){
+
+                    int ExtraItemCost=(Integer.valueOf(deliveryDTO.getItemQuantity())-3000)/1000;
+                    int ExtraServicecharge=(ExtraItemCost*50)+basecharge;
+                    Log.e("Extra_item_cost",""+ExtraItemCost+" total_charge"+ExtraServicecharge);
+
+                    deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
+
+                    deliveryDTO.setDeliveryCost(String.format("%2f", String.valueOf(ExtraServicecharge)));
+                }
+
             }
 
         } catch (Exception e) {
@@ -93,7 +106,12 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
         deliveryBookBinding.etDeliveryDate.setText(deliveryDTO.getDeliveryDate());
         deliveryBookBinding.etDeliveryTime.setText(deliveryDTO.getDeliveryTime());
-        deliveryBookBinding.etDistance.setText(deliveryDTO.getDeliveryDistance() +" "+ getString(R.string.km));
+        if (deliveryDTO.getDeliveryDistance()!=null){
+            deliveryBookBinding.etDistance.setText(deliveryDTO.getDeliveryDistance() +" "+ getString(R.string.km));
+        }else {
+            deliveryBookBinding.etDistance.setText("-- "+ getString(R.string.km));
+        }
+
 
         if (deliveryDTO.getVehicleType()==null){
             deliveryDTO.setVehicleType("bike");
@@ -174,7 +192,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("pickup_mob_number", deliveryDTO.getPickupMobNumber());
             map.put("pickupaddress", deliveryDTO.getPickupaddress());
             map.put("item_description", deliveryDTO.getItemDescription());
-            map.put("item_quantity", deliveryDTO.getItemQuantity());
+            map.put("item_cost", deliveryDTO.getItemQuantity());
             map.put("delivery_date", deliveryDTO.getDeliveryDate());
             map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
 

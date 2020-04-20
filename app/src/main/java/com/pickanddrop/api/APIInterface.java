@@ -122,4 +122,8 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("logout")
     Call<OtherDTO> callLogoutApi(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("contact_us")
+    Call<OtherDTO> callContactApi(@FieldMap Map<String, String> map);
 }

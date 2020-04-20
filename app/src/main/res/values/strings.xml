@@ -218,6 +218,7 @@
     <string name="special_ins_txt">Special Instructions...</string>
     <string name="item_des_txt">Item Description</string>
     <string name="item_qua_txt">Item Quantity</string>
+    <string name="item_cost_txt">Cost of Items</string>
     <string name="delivery_date_qua_txt">Delivery Date</string>
     <string name="delivery_time">Delivery Time</string>
     <string name="delivery_order">Delivery Order</string>
@@ -340,4 +341,5 @@
     <string name="accept_order">Accepted Orders</string>
     <string name="subject">Subject</string>
     <string name="descri">Description</string>
+    <string name="name">Name</string>
 </resources>

@@ -188,7 +188,7 @@ public class DeliveryDTO implements Parcelable{
         @SerializedName("item_description")
         @Expose
         private String itemDescription;
-        @SerializedName("item_quantity")
+        @SerializedName("item_cost")
         @Expose
         private String itemQuantity;
         @SerializedName("delivery_date")

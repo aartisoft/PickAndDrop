@@ -414,7 +414,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             createOrderOneBinding.etItemDescription.requestFocus();
             return false;
         } else if (itemQuantity == null || itemQuantity.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_item_quantity), getString(R.string.ok), false);
+            utilities.dialogOK(context, getString(R.string.validation_title), "Please enter item quantity.", getString(R.string.ok), false);
             createOrderOneBinding.etItemQuantity.requestFocus();
             return false;
         } else if (deliDate == null || deliDate.equals("")) {

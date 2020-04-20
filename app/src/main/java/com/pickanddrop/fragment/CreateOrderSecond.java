@@ -295,14 +295,28 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                         float distanceInkms = (loc1.distanceTo(loc2)) / 1000;
 
                         if (vehicleType.equalsIgnoreCase(getString(R.string.bike))) {
-                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getMotorbike());
-                        } else if (vehicleType.equalsIgnoreCase(getString(R.string.car))) {
-                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getCar());
-                        } else if (vehicleType.equalsIgnoreCase(getString(R.string.van))) {
-                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getVan());
-                        } else {
-                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getTruck());
+                           // totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getMotorbike());
+
+                            if (distanceInkms<10){
+                                totalDeliveryCost= Double.valueOf(250.00);
+                            }else {
+                                float distanceExtra=distanceInkms-10;
+                                Double ExtraCost=Double.valueOf(distanceExtra)*20.00;
+                                totalDeliveryCost=Double.valueOf(250.00)+ExtraCost;
+
+                                Log.e("extra_distance",""+distanceExtra+" Extra_cost-"+ExtraCost);
+
+                            }
+
                         }
+
+//                        else if (vehicleType.equalsIgnoreCase(getString(R.string.car))) {
+//                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getCar());
+//                        } else if (vehicleType.equalsIgnoreCase(getString(R.string.van))) {
+//                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getVan());
+//                        } else {
+//                            totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getTruck());
+//                        }
 
                         driverDeliveryCost = totalDeliveryCost - ((totalDeliveryCost * Float.parseFloat(otherDTO.getVehicle().getDriverPercentage()) / 100));
 
@@ -465,7 +479,7 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
             map.put("pickup_mob_number", deliveryDTO.getPickupMobNumber());
             map.put("pickupaddress", deliveryDTO.getPickupaddress());
             map.put("item_description", deliveryDTO.getItemDescription());
-            map.put("item_quantity", deliveryDTO.getItemQuantity());
+            map.put("item_cost", deliveryDTO.getItemQuantity());
             map.put("delivery_date", deliveryDTO.getDeliveryDate());
             map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
             map.put("dropoff_first_name", deliveryDTO.getDropoffFirstName());
