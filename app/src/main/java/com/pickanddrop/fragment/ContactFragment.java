@@ -22,6 +22,7 @@ import com.pickanddrop.api.APIClient;
 import com.pickanddrop.api.APIInterface;
 import com.pickanddrop.databinding.ContactFragmentBinding;
 import com.pickanddrop.dto.OtherDTO;
+import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.OnDialogConfirmListener;
 import com.pickanddrop.utils.Utilities;
 
@@ -39,6 +40,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
      ContactFragmentBinding binding;
     private Context context;
     private Utilities utilities;
+    private AppSession appSession;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
         super.onViewCreated(view, savedInstanceState);
 
         context = getActivity();
+        appSession = new AppSession(context);
         utilities = Utilities.getInstance(context);
         initToolbar();
         binding.ivBack.setOnClickListener(this);
@@ -98,6 +101,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                 map.put("name", name);
                 map.put("subject", subject);
                 map.put("description", desc);
+                map.put("userid", appSession.getUser().getData().getUserId());
 
                 APIInterface apiInterface = APIClient.getClient();
                 Call<OtherDTO> call = apiInterface.callContactApi(map);
