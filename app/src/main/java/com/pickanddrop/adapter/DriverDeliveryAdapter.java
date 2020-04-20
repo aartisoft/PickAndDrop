@@ -125,7 +125,7 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
             viewHolder.tvDropLoc.setText(context.getString(R.string.delivery_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getDropoffaddress());
 
             try {
-                viewHolder.tvPrice.setText(context.getString(R.string.us_dollar) +" "+ String.format("%.2f", Double.parseDouble(deliveryDTOArrayList.get(position).getDriverDeliveryCost())));
+                viewHolder.tvPrice.setText(context.getString(R.string.us_dollar) +" "+ String.format("%.2f", Double.parseDouble(deliveryDTOArrayList.get(position).getDeliveryCost())));
             } catch (Exception e) {
                 viewHolder.tvPrice.setText(context.getString(R.string.us_dollar));
                 e.printStackTrace();

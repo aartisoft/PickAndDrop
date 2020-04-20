@@ -355,7 +355,7 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
 
                         bundle.putParcelable("deliveryDTO", deliveryDTO);
                         deliveryCheckout.setArguments(bundle);
-                        addFragmentWithoutRemove(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
+                        replaceFragmentWithBack(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
                     }
                 }
                 break;
@@ -503,8 +503,8 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
             map.put("dropOffLat", deliveryDTO.getDropoffLat());
             map.put("delivery_time", deliveryDTO.getDeliveryTime());
             map.put(PN_APP_TOKEN, APP_TOKEN);
-            map.put("dropoff_country_code", "91");
-            map.put("pickup_country_code", "91");
+            map.put("dropoff_country_code", "63");
+            map.put("pickup_country_code", "63");
 
 
             APIInterface apiInterface = APIClient.getClient();
@@ -520,7 +520,10 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                                 utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((DrawerContentSlideActivity) context).popAllFragment();
+                                        //((DrawerContentSlideActivity) context).popAllFragment();
+                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
                                     }
 
                                     @Override

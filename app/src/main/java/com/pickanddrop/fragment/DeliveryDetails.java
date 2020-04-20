@@ -112,7 +112,7 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                     Route route = new Route();
                     bundle.putParcelable("deliveryDTO", data);
                     route.setArguments(bundle);
-                    addFragmentWithoutRemove(R.id.container_main, route, "Route");
+                    replaceFragmentWithBack(R.id.container_main, route, "Route");
                 } else {
                     new AlertDialog.Builder(context)
                             .setMessage(getString(R.string.are_you_cancel))
@@ -143,7 +143,7 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                             DeliveryStatus deliveryStatus = new DeliveryStatus();
                             bundle.putParcelable("deliveryDTO", data);
                             deliveryStatus.setArguments(bundle);
-                            addFragmentWithoutRemove(R.id.container_main, deliveryStatus, "DeliveryStatus");
+                            replaceFragmentWithBack(R.id.container_main, deliveryStatus, "DeliveryStatus");
                         }
                     }
                 } else {
@@ -152,7 +152,7 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                     if (data != null) {
                         bundle.putParcelable("deliveryDTO", data);
                         createOrderOne.setArguments(bundle);
-                        addFragmentWithoutRemove(R.id.container_main, createOrderOne, "CreateOrderOne");
+                        replaceFragmentWithBack(R.id.container_main, createOrderOne, "CreateOrderOne");
                     }
                 }
                 break;
@@ -164,7 +164,7 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                     ReportProblem reportProblem = new ReportProblem();
                     bundle.putParcelable("deliveryDTO", data);
                     reportProblem.setArguments(bundle);
-                    addFragmentWithoutRemove(R.id.container_main, reportProblem, "ReportProblem");
+                    replaceFragmentWithBack(R.id.container_main, reportProblem, "ReportProblem");
                 }
                 break;
         }
@@ -215,7 +215,7 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                                 if (appSession.getUserType().equals(DRIVER)) {
 
                                     try {
-                                        deliveryDetailsBinding.tvDeliveryCharges.setText(getString(R.string.amonunt_txt) + " - " + getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(data.getDriverDeliveryCost())));
+                                        deliveryDetailsBinding.tvDeliveryCharges.setText(getString(R.string.amonunt_txt) + " - " + getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(data.getDeliveryCost())));
                                     } catch (Exception e) {
                                         deliveryDetailsBinding.tvDeliveryCharges.setText(context.getString(R.string.us_dollar));
                                         e.printStackTrace();

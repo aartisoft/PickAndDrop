@@ -111,11 +111,11 @@ public class CurrentList extends BaseFragment implements View.OnClickListener, A
                 bundle.putString("history", "history");
                 bundle.putString("delivery", deliveryDTOArrayList.get(position).getOrderId());
                 deliveryDetails.setArguments(bundle);
-                addFragmentWithoutRemove(R.id.container_main, deliveryDetails, "DeliveryDetails");
+                replaceFragmentWithBack(R.id.container_main, deliveryDetails, "DeliveryDetails");
             } else {
                 bundle.putString("delivery", deliveryDTOArrayList.get(position).getOrderId());
                deliveryDetails.setArguments(bundle);
-               addFragmentWithoutRemove(R.id.container_main, deliveryDetails, "DeliveryDetails");
+                replaceFragmentWithBack(R.id.container_main, deliveryDetails, "DeliveryDetails");
             }
         }
     };
@@ -130,11 +130,11 @@ public class CurrentList extends BaseFragment implements View.OnClickListener, A
                 bundle.putString("history", "history");
                 bundle.putString("delivery", deliveryDTOArrayList.get(position).getOrderId());
                 deliveryDetails.setArguments(bundle);
-                addFragmentWithoutRemove(R.id.container_main, deliveryDetails, "DeliveryDetails");
+                replaceFragmentWithBack(R.id.container_main, deliveryDetails, "DeliveryDetails");
             } else {
                 bundle.putString("delivery", deliveryDTOArrayList.get(position).getOrderId());
                 deliveryDetails.setArguments(bundle);
-                addFragmentWithoutRemove(R.id.container_main, deliveryDetails, "DeliveryDetails");
+                replaceFragmentWithBack(R.id.container_main, deliveryDetails, "DeliveryDetails");
             }
         }
     };

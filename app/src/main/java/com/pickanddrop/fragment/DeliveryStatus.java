@@ -75,7 +75,7 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
     private DeliveryDTO.Data deliveryDTO;
     private final int PERMISSIONS_REQUEST_READ_CONTACTS = 4125;
     String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private String imagePath = "", receiverName = "";
+    private String imagePath = "", receiverName = "", receiverAmount = "", receiverReference = "";
     private String[] SIGNATURE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private Button btn_get_sign, mClear, mGetSign, mCancel;
     private final int PERMISSIONS_REQUEST_READ_SIGNATURE = 188;
@@ -158,6 +158,8 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
         switch (view.getId()) {
             case R.id.btn_submit:
                 receiverName = deliveryStatusBinding.etReceiver.getText().toString();
+                receiverAmount = deliveryStatusBinding.etAmount.getText().toString();
+                receiverReference = deliveryStatusBinding.etRefrenceNmbr.getText().toString();
                 if (isValid()){
                     callDeliveryOrderApi();
                 }
@@ -232,6 +234,9 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
             partMap.put("code", RequestBody.create(MediaType.parse("code"), APP_TOKEN));
             partMap.put("signature_name", RequestBody.create(MediaType.parse("signature_name"), receiverName));
 
+            partMap.put("received_amt", RequestBody.create(MediaType.parse("received_amt"), receiverAmount));
+            partMap.put("reference_no", RequestBody.create(MediaType.parse("reference_no"), receiverReference));
+
             APIInterface apiInterface = APIClient.getClient();
             Call<LoginDTO> call = apiInterface.callDeliverOrderApi(partMap, itemsImage);
 
@@ -286,6 +291,14 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
         } else if (receiverName == null || receiverName.equals("")) {
             utilities.dialogOK(context, "", getString(R.string.please_enter_name_client), getString(R.string.ok), false);
             deliveryStatusBinding.etReceiver.requestFocus();
+            return false;
+        }else if (receiverAmount == null || receiverAmount.equals("")) {
+            utilities.dialogOK(context, "", "Please enter received amount", getString(R.string.ok), false);
+            deliveryStatusBinding.etAmount.requestFocus();
+            return false;
+        }else if (receiverReference == null || receiverReference.equals("")) {
+            utilities.dialogOK(context, "", "Please enter reference number", getString(R.string.ok), false);
+            deliveryStatusBinding.etRefrenceNmbr.requestFocus();
             return false;
         }
         return true;

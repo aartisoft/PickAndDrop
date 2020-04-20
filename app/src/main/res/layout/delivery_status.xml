@@ -178,6 +178,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_get" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -265,11 +266,40 @@
                     android:layout_marginTop="@dimen/activity_margin_medium"
                     android:gravity="center"
                     android:hint="@string/receiver_name"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ll_image" />
+
+                <EditText
+                    android:id="@+id/et_amount"
+                    style="@style/edit_text_login_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_medium"
+                    android:gravity="center"
+                    android:hint="@string/amonunt_txt"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_receiver" />
+
+                <EditText
+                    android:id="@+id/et_refrence_nmbr"
+                    style="@style/edit_text_login_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_medium"
+                    android:gravity="center"
+                    android:hint="@string/reference_no"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_amount" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button

@@ -2,9 +2,12 @@ package com.pickanddrop.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -27,16 +30,26 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.pickanddrop.R;
 import com.pickanddrop.activities.DrawerContentSlideActivity;
+import com.pickanddrop.api.APIClient;
+import com.pickanddrop.api.APIInterface;
 import com.pickanddrop.databinding.CreateOrderOneBinding;
 import com.pickanddrop.dto.DeliveryDTO;
+import com.pickanddrop.dto.OtherDTO;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
+import com.pickanddrop.utils.OnDialogConfirmListener;
 import com.pickanddrop.utils.Utilities;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -57,6 +70,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
     private String TAG = CreateOrderOne.class.getName();
     private boolean rescheduleStatus = false;
     private DeliveryDTO.Data data;
+    DeliveryDTO.Data deliveryDTO = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +83,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
         if (getArguments() != null && getArguments().containsKey("deliveryDTO")) {
             data = getArguments().getParcelable("deliveryDTO");
             rescheduleStatus = true;
+            deliveryType = data.getDeliveryType();
         }
     }
 
@@ -203,7 +218,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
 
                     CreateOrderSecond createOrderSecond = new CreateOrderSecond();
                     DeliveryCheckout deliveryCheckout = new DeliveryCheckout();
-                    DeliveryDTO.Data deliveryDTO = null;
+
                     Bundle bundle = new Bundle();
                     if (rescheduleStatus) {
                         deliveryDTO = data;
@@ -256,19 +271,21 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                     deliveryDTO.setPickupCountryCode(countryCode);
 
 
-                    if (deliveryType.equalsIgnoreCase("shop&deliver")) {
+                    if (deliveryType.equalsIgnoreCase("shop_deliver")) {
 
-
-
-                        bundle.putParcelable("deliveryDTO", deliveryDTO);
-                        deliveryCheckout.setArguments(bundle);
-                        addFragmentWithoutRemove(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
+                        if (rescheduleStatus) {
+                            CallRescheduleOrderBookApi();
+                        }else {
+                            bundle.putParcelable("deliveryDTO", deliveryDTO);
+                            deliveryCheckout.setArguments(bundle);
+                            replaceFragmentWithBack(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
+                        }
 
 
                     } else {
                         bundle.putParcelable("deliveryDTO", deliveryDTO);
                         createOrderSecond.setArguments(bundle);
-                        addFragmentWithoutRemove(R.id.container_main, createOrderSecond, "CreateOrderSecond");
+                        replaceFragmentWithBack(R.id.container_main, createOrderSecond, "CreateOrderSecond");
                     }
 
 
@@ -320,6 +337,99 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
                 break;
+        }
+    }
+
+    public void CallRescheduleOrderBookApi() {
+        if (!utilities.isNetworkAvailable())
+            utilities.dialogOK(context, "", context.getResources().getString(R.string.network_error), context.getString(R.string.ok), false);
+        else {
+            final ProgressDialog mProgressDialog;
+            mProgressDialog = ProgressDialog.show(context, null, null);
+            mProgressDialog.setContentView(R.layout.progress_loader);
+            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            mProgressDialog.setCancelable(false);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("user_id", appSession.getUser().getData().getUserId());
+            map.put("order_id", deliveryDTO.getOrderId());
+            map.put("pickup_comapny_name", deliveryDTO.getPickupComapnyName());
+            map.put("pickup_first_name", deliveryDTO.getPickupFirstName());
+            map.put("pickup_last_name", deliveryDTO.getPickupLastName());
+            map.put("pickup_mob_number", deliveryDTO.getPickupMobNumber());
+            map.put("pickupaddress", deliveryDTO.getPickupaddress());
+            map.put("item_description", deliveryDTO.getItemDescription());
+            map.put("item_cost", deliveryDTO.getItemQuantity());
+            map.put("delivery_date", deliveryDTO.getDeliveryDate());
+            map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
+
+            map.put("dropoff_first_name", "");
+            map.put("dropoff_last_name", "");
+            map.put("dropoff_mob_number", "");
+            map.put("dropoff_special_inst", "");
+            map.put("dropoffaddress", "");
+            map.put("parcel_height", "");
+            map.put("parcel_width", "");
+            map.put("parcel_lenght", "");
+            map.put("parcel_weight", "");
+
+            map.put("delivery_type", deliveryDTO.getDeliveryType());
+            map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
+            map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
+            map.put("delivery_cost", deliveryDTO.getDeliveryCost());
+            map.put("dropoff_comapny_name", "");
+            map.put("vehicle_type", deliveryDTO.getVehicleType());
+            map.put("pickUpLat", deliveryDTO.getPickupLat());
+            map.put("pickUpLong", deliveryDTO.getPickupLong());
+            map.put("dropOffLong", "");
+            map.put("dropOffLat", "");
+            map.put("delivery_time", deliveryDTO.getDeliveryTime());
+            map.put(PN_APP_TOKEN, APP_TOKEN);
+            map.put("dropoff_country_code", "63");
+            map.put("pickup_country_code", "63");
+
+
+            APIInterface apiInterface = APIClient.getClient();
+            Call<OtherDTO> call = apiInterface.callRescheduleOrderApi(map);
+            call.enqueue(new Callback<OtherDTO>() {
+                @Override
+                public void onResponse(Call<OtherDTO> call, Response<OtherDTO> response) {
+                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
+                    if (response.isSuccessful()) {
+                        try {
+                            if (response.body().getResult().equalsIgnoreCase("success")) {
+                                utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
+                                    @Override
+                                    public void onYes() {
+                                        //((DrawerContentSlideActivity) context).popAllFragment();
+                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    }
+
+                                    @Override
+                                    public void onNo() {
+                                    }
+                                });
+                            } else {
+                                utilities.dialogOK(context, "", response.body().getMessage(), context.getString(R.string.ok), false);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OtherDTO> call, Throwable t) {
+                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
+                    Log.e(TAG, t.toString());
+                    utilities.dialogOK(context, "", context.getResources().getString(R.string.server_error), context.getResources().getString(R.string.ok), false);
+
+                }
+            });
         }
     }
 

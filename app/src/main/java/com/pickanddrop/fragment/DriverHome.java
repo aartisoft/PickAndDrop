@@ -193,7 +193,7 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                 getLatLong();
                 break;
             case R.id.tv_deliveries:
-                addFragmentWithoutRemove(R.id.container_main, new NearByList(), "NearByList");
+                replaceFragmentWithBack(R.id.container_main, new NearByList(), "NearByList");
                 break;
         }
     }
@@ -273,7 +273,7 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                     mMap.clear();
                                     for (int i = 0; i < deliveryDTOArrayList.size(); i++) {
                                         int imageView;
-                                        if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("shop&deliver")) {
+                                        if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                                             imageView = R.drawable.pin1;
                                         }
 //                                        else if (deliveryDTOArrayList.get(i).getDeliveryType().equalsIgnoreCase("4HOUR")) {
@@ -284,7 +284,8 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                         }
 
                                         Marker marker = mMap.addMarker(new MarkerOptions()
-                                                .position(new LatLng(Double.parseDouble(deliveryDTOArrayList.get(i).getPickupLat()), Double.parseDouble(deliveryDTOArrayList.get(i).getPickupLat())))
+                                                .position(new LatLng(Double.parseDouble(deliveryDTOArrayList.get(i).getPickupLat()),
+                                                        Double.parseDouble(deliveryDTOArrayList.get(i).getPickupLong())))
                                                 .icon(BitmapDescriptorFactory.fromResource(imageView)));
 //                                                .title(deliveryDTOArrayList.get(i).getPickupaddress()));
 
@@ -308,9 +309,9 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                         tvDelivery.setText(getString(R.string.driver_id) + " : " + data.getUserId());
                                         tvPick.setText(getString(R.string.pickup_maps) + " : " + data.getPickupaddress());
                                         tvDrop.setText(getString(R.string.dropoff_maps) + " : " + data.getDropoffaddress());
-                                        tvPrice.setText(getString(R.string.price) + " : " + getString(R.string.us_dollar) + " " + data.getDriverDeliveryCost());
+                                        tvPrice.setText(getString(R.string.price) + " : " + getString(R.string.us_dollar) + " " + data.getDeliveryCost());
 
-                                        Log.e(TAG, "Vehicle Type >>>>>>" + data.getVehicleType());
+                                        //Log.e(TAG, "Vehicle Type >>>>>>" + data.getVehicleType());
                                         ImageView ivVehicle = (ImageView) v.findViewById(R.id.iv_vehicle);
                                         int image;
                                         if (data.getVehicleType().equalsIgnoreCase(getString(R.string.bike))) {
@@ -324,7 +325,7 @@ public class DriverHome extends BaseFragment implements AppConstants, View.OnCli
                                         else {
                                             image = R.drawable.bike_list;
                                         }
-                                        ivVehicle.setImageResource(image);
+                                       // ivVehicle.setImageResource(image);
 
                                         return v;
                                     }

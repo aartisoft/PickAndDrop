@@ -81,7 +81,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getDeliveryCost());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" 20");
         try {
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
             }else {
                     int basecharge=300;
@@ -136,7 +136,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 //        }
 
 
-        if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")) {
+        if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
             //deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.tvServicePriText.setText("₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.");
@@ -145,7 +145,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         //    deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
         //    deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
        // }
-        else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("pickup&deliver")) {
+        else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("pick_deliver")) {
             deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
            // deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.tvServicePriText.setText("₱250 per transaction +₱20/km in excess of 10 km Exemptions applied for items too heavy or too big to be carried by single travel.");
@@ -196,7 +196,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("delivery_date", deliveryDTO.getDeliveryDate());
             map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
 
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 map.put("dropoff_first_name", deliveryDTO.getDropoffFirstName());
                 map.put("dropoff_last_name", deliveryDTO.getDropoffLastName());
                 map.put("dropoff_mob_number", deliveryDTO.getDropoffMobNumber());
@@ -217,7 +217,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
 
             try {
-                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
                 }else {
                     map.put("delivery_cost", "300");
@@ -225,7 +225,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
             } catch (Exception e) {
 
-                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", deliveryDTO.getDeliveryCost());
                 }else {
                     map.put("delivery_cost", "300");
@@ -238,7 +238,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());
 
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 map.put("dropOffLong", deliveryDTO.getDropoffLong());
                 map.put("dropOffLat", deliveryDTO.getDropoffLat());
                 map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
@@ -251,7 +251,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
             map.put("delivery_time", deliveryDTO.getDeliveryTime());
             map.put(PN_APP_TOKEN, APP_TOKEN);
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop&deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 map.put("dropoff_country_code", deliveryDTO.getDropoffCountryCode());
             }else {
                 map.put("dropoff_country_code"," ");

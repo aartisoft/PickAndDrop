@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/text_margin_small"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/car_list" />
+            app:srcCompat="@drawable/bike_list" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"

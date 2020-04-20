@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -189,7 +190,7 @@ public class NearByList extends BaseFragment implements View.OnClickListener, Ap
             bundle.putString("delivery", deliveryDTOArrayList.get(position).getOrderId());
             bundle.putString("nearByStatus", "nearByStatus");
             deliveryDetails.setArguments(bundle);
-            addFragmentWithoutRemove(R.id.container_main, deliveryDetails, "DeliveryDetails");
+            replaceFragmentWithBack(R.id.container_main, deliveryDetails, "DeliveryDetails");
         }
     };
 
@@ -221,7 +222,10 @@ public class NearByList extends BaseFragment implements View.OnClickListener, Ap
                                 utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((DrawerContentSlideActivity) context).onBackPressed();
+                                       // ((DrawerContentSlideActivity) context).onBackPressed();
+                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
                                     }
 
                                     @Override

@@ -253,10 +253,12 @@
                     android:fontFamily="@font/titillium_regular"
                     android:textColor="@color/black_color"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:autofillHints="@string/house_txt"
                     android:hint="@string/item_des_txt"
                     android:imeOptions="actionNext"
+                    android:layout_gravity="start"
+                    android:gravity="start"
                     android:inputType="textMultiLine" />
 
                 </LinearLayout>
