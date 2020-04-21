@@ -89,18 +89,44 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
             }else {
-                    int basecharge=300;
-                if (Integer.valueOf(deliveryDTO.getItemQuantity())<3000){
+                    Double basecharge=300.00;
+                if (Double.valueOf(deliveryDTO.getItemQuantity())<=3000.00){
                     deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+basecharge);
-                }else if (Integer.valueOf(deliveryDTO.getItemQuantity())>3000){
+                }else if (Double.valueOf(deliveryDTO.getItemQuantity())>3000.00){
 
-                    int ExtraItemCost=(Integer.valueOf(deliveryDTO.getItemQuantity())-3000)/1000;
-                    int ExtraServicecharge=(ExtraItemCost*50)+basecharge;
-                    Log.e("Extra_item_cost",""+ExtraItemCost+" total_charge"+ExtraServicecharge);
+                    Double ExtraItemCost=(Double.valueOf(deliveryDTO.getItemQuantity())-3000.00)/1000.00;
 
-                    deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
+                   // double number = 24.4;
+                    String numberAsString = String.valueOf(ExtraItemCost);
+                    String decimalPart = numberAsString.split("\\.")[1];
+                    //System.out.println(decimalPart);
+                    Log.e("decimalPart",""+decimalPart);
+                    if (Integer.valueOf(decimalPart)>0){
 
-                    deliveryDTO.setDeliveryCost(String.format("%2f", Double.parseDouble(String.valueOf(ExtraServicecharge))));
+                        String myString = String.valueOf(ExtraItemCost);
+                        String newString = myString.substring(0, myString.indexOf("."));
+                        System.out.print(newString);
+
+                       int TotalExtraItemCost=(Integer.valueOf(newString))+1;
+
+                        Log.e("decimalPart1",""+TotalExtraItemCost);
+
+                        Double ExtraServicecharge=(TotalExtraItemCost*50.00)+basecharge;
+                      //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
+
+                        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
+
+                        deliveryDTO.setDeliveryCost(String.format("%2f", ExtraServicecharge));
+                    }else {
+                        Double ExtraServicecharge=(ExtraItemCost*50.00)+basecharge;
+                        //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
+
+                        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
+
+                        deliveryDTO.setDeliveryCost(String.format("%2f", ExtraServicecharge));
+                    }
+                    //**********************
+
                 }
 
             }
