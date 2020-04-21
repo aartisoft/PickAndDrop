@@ -356,10 +356,15 @@ public class Utilities implements AppConstants {
     public boolean checkMobile(String mobile) {
         try {
             mobile = mobile.replaceAll("[^0-9]", "");
-            if (MOBILE_NUMBER_PATTERN.matcher(mobile).matches())
-                return true;
-            else
+            if (mobile.length()<9){
                 return false;
+            }else {
+                if (MOBILE_NUMBER_PATTERN.matcher(mobile).matches())
+                    return true;
+                else
+                    return false;
+            }
+
         } catch (Exception exception) {
             return false;
         }

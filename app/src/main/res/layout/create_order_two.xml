@@ -409,7 +409,7 @@
                     android:background="@drawable/edit_profile_rect"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <Spinner
                         android:id="@+id/sp_type"
@@ -475,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/titillium_regular"
-                    android:text="@string/delivery_order"
+                    android:text="Pick&amp;Deliver Order"
                     android:layout_centerInParent="true"
                     android:textColor="@color/white_color"
                     android:textSize="@dimen/text_size_extra_normal" />

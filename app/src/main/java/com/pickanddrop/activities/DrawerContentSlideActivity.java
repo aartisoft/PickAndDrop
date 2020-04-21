@@ -297,17 +297,15 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         stringHashMap.put(PN_NAME, getString(R.string.delivery_history));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.history));
         menuList.add(stringHashMap);
+
         stringHashMap = new HashMap<>();
         stringHashMap.put(PN_NAME, getString(R.string.notification));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.notification));
         menuList.add(stringHashMap);
+
         stringHashMap = new HashMap<>();
-        stringHashMap.put(PN_NAME, getString(R.string.profile));
-        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.profile));
-        menuList.add(stringHashMap);
-        stringHashMap = new HashMap<>();
-        stringHashMap.put(PN_NAME, getString(R.string.setting));
-        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.setting));
+        stringHashMap.put(PN_NAME, getString(R.string.faq));
+        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
         menuList.add(stringHashMap);
 
         if (appSession.getUserType().equals(DRIVER)) {
@@ -316,11 +314,6 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
             stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
             menuList.add(stringHashMap);
 
-        } else {
-            stringHashMap = new HashMap<>();
-            stringHashMap.put(PN_NAME, getString(R.string.faq));
-            stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_help_outline));
-            menuList.add(stringHashMap);
         }
 
         stringHashMap = new HashMap<>();
@@ -332,6 +325,17 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         stringHashMap.put(PN_NAME, getString(R.string.contact_us));
         stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.ic_contact_phone));
         menuList.add(stringHashMap);
+
+        stringHashMap = new HashMap<>();
+        stringHashMap.put(PN_NAME, getString(R.string.profile));
+        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.profile));
+        menuList.add(stringHashMap);
+
+        stringHashMap = new HashMap<>();
+        stringHashMap.put(PN_NAME, getString(R.string.setting));
+        stringHashMap.put(PN_VALUE, String.valueOf(R.drawable.setting));
+        menuList.add(stringHashMap);
+
 
         stringHashMap = new HashMap<>();
         stringHashMap.put(PN_NAME, getString(R.string.logout));

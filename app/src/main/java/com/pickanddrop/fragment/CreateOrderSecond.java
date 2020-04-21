@@ -58,7 +58,7 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
     private Utilities utilities;
     private CreateOrderTwoBinding createOrderTwoBinding;
     private String countryCode = "", dropOffLat = "", dropOffLong = "", companyName = "", firstName = "", lastName = "", mobile = "", dropOffAddress = "", dropOffSpecialInstruction = "",
-            vehicleType = "", parcelHeight = "", parcelWidth = "", parcelWeight = "", parcelLenght = "";
+            vehicleType = "Bike", parcelHeight = "", parcelWidth = "", parcelWeight = "", parcelLenght = "";
     private DeliveryDTO.Data deliveryDTO;
     private PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
     private static final int REQUEST_PICK_PLACE = 1142;
@@ -186,7 +186,11 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
     }
 
     private void initToolBar() {
-
+//        if (deliveryType.equalsIgnoreCase("shop_deliver")) {
+//            createOrderOneBinding.toolbarTitle.setText("Pabili Order");
+//        }else {
+//            createOrderOneBinding.toolbarTitle.setText("Pick&Deliver Order");
+//        }
     }
 
     private void initView() {
@@ -452,11 +456,11 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
 //            return false;
 //        }
 
-        else if (vehicleType == null || vehicleType.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_vehicle), getString(R.string.ok), false);
-            createOrderTwoBinding.spType.requestFocus();
-            return false;
-        }
+//        else if (vehicleType == null || vehicleType.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_vehicle), getString(R.string.ok), false);
+//            createOrderTwoBinding.spType.requestFocus();
+//            return false;
+//        }
         return true;
     }
 

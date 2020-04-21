@@ -17,9 +17,9 @@
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
-        android:icon="@drawable/logo_launcher"
+        android:icon="@drawable/launcher_pabili"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_launcher"
+        android:roundIcon="@drawable/launcher_pabili"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
@@ -49,7 +49,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.pickup.app.provider"
+            android:authorities="com.pickup.delivery.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -72,12 +72,17 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         initView();
         initToolBar();
         setValues();
+        if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+            deliveryBookBinding.llCostOfGoods.setVisibility(View.GONE);
+
+        }
     }
 
     private void setValues() {
 
         deliveryBookBinding.etPickupAddress.setText(deliveryDTO.getPickupaddress());
         deliveryBookBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
+        deliveryBookBinding.etCostGood.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getItemQuantity());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getDeliveryCost());
 //        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" 20");
         try {
@@ -95,7 +100,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
                     deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
 
-                    deliveryDTO.setDeliveryCost(String.format("%2f", String.valueOf(ExtraServicecharge)));
+                    deliveryDTO.setDeliveryCost(String.format("%2f", Double.parseDouble(String.valueOf(ExtraServicecharge))));
                 }
 
             }
@@ -114,7 +119,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
 
         if (deliveryDTO.getVehicleType()==null){
-            deliveryDTO.setVehicleType("bike");
+            deliveryDTO.setVehicleType("Bike");
         }
         if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.bike))) {
             deliveryBookBinding.llCar.setAlpha(Float.parseFloat("0.4"));
@@ -153,7 +158,12 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
     }
 
     private void initToolBar() {
-
+        if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
+            deliveryBookBinding.toolbarTitle.setText("Pabili Order");
+        }else {
+            deliveryBookBinding.toolbarTitle.setText("Pick&Deliver Order");
+            deliveryBookBinding.tvPickText.setText("Pickup address");
+        }
     }
 
     private void initView() {
@@ -217,24 +227,18 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
 
             try {
-                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+               // if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
-                }else {
-                    map.put("delivery_cost", "300");
-                }
+               // }else {
+                //    map.put("delivery_cost", "300");
+             //   }
 
             } catch (Exception e) {
-
-                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
-                    map.put("delivery_cost", deliveryDTO.getDeliveryCost());
-                }else {
-                    map.put("delivery_cost", "300");
-                }
                 e.printStackTrace();
             }
 
            // map.put("dropoff_comapny_name", deliveryDTO.getDropoffComapnyName());
-            map.put("vehicle_type", deliveryDTO.getVehicleType());
+            map.put("vehicle_type", "Bike");
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());
 

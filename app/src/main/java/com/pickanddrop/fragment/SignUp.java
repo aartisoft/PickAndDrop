@@ -60,7 +60,11 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
     private AppSession appSession;
     private Utilities utilities;
     private SignUpBinding signUpBinding;
-    private String countryCode = "", notiificationId = "", vehicleType = "", companyName = "", gstNumber = "", gst = "", imagePath = "", email = "", firstName = "", dob = "", lastName = "", mobile = "", landline = "", password = "", confirmPassword = "", abn = "", vehicleNumber = "", vehicleResg = "", house = "", unit = "", streetName = "", streetNumber = "", city = "", state = "", country = "", postCode = "";
+    private String countryCode = "", notiificationId = "", vehicleType = "Bike", companyName = "", gstNumber = "", gst = "",
+            imagePath = "", email = "", firstName = "", dob = "", lastName = "", mobile = "", landline = "", password = "",
+            confirmPassword = "", abn = "",
+            vehicleNumber = "", vehicleResg = "", house = "", unit = "", streetName = "", streetNumber = "", city = "", state = "",
+            country = "", postCode = "";
     private final int PERMISSIONS_REQUEST_READ_CONTACTS = 1234;
     String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private MultipartBody.Part profileImage = null;
@@ -157,7 +161,7 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
                     if (i != 0) {
                         vehicleType = vehicleList.get(i).get(PN_VALUE);
                     } else {
-                        vehicleType = "";
+                        vehicleType = "Bike";
                     }
                 }
 
@@ -397,13 +401,8 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
             }
 
         }
-//        else if (!utilities.checkEmail(email)) {
-//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
-//            signUpBinding.etEmail.requestFocus();
-//            return false;
-//        }
-        else if (mobile.trim().length() == 0) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
+        else if (!utilities.checkMobile(mobile)) {
+            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_mobile_number), getString(R.string.ok), false);
             signUpBinding.etMobile.requestFocus();
             return false;
 //        } else if (!utilities.checkMobile(mobile)) {
@@ -470,15 +469,18 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_country_name), getString(R.string.ok), false);
             signUpBinding.etCountry.requestFocus();
             return false;
-        } else if (vehicleType == null || vehicleType.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_vehicle), getString(R.string.ok), false);
-            return false;
-        } else if (vehicleNumber == null || vehicleNumber.equals("")) {
+        }
+//        else if (vehicleType == null || vehicleType.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_select_vehicle), getString(R.string.ok), false);
+//            return false;
+//        }
+        else if (vehicleNumber == null || vehicleNumber.equals("")) {
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_vehicle_number), getString(R.string.ok), false);
             signUpBinding.etVehicleNumber.requestFocus();
             return false;
-        } else if (vehicleResg == null || vehicleResg.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_vehicle_reg_number), getString(R.string.ok), false);
+        }
+        else if (vehicleResg == null || vehicleResg.equals("")) {
+            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_driving_licence), getString(R.string.ok), false);
             signUpBinding.etRegistration.requestFocus();
             return false;
         }
@@ -567,14 +569,16 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
             partMap.put("email", RequestBody.create(MediaType.parse("email"), email));
             partMap.put("password", RequestBody.create(MediaType.parse("password"), password));
             partMap.put("user_type", RequestBody.create(MediaType.parse("user_type"), appSession.getUserType()));
-            partMap.put("vehicle_type", RequestBody.create(MediaType.parse("vehicle_type"), vehicleType));
+            partMap.put("vehicle_type", RequestBody.create(MediaType.parse("vehicle_type"), "Bike"));
             partMap.put("device_token", RequestBody.create(MediaType.parse("device_token"), notiificationId));
             partMap.put("code", RequestBody.create(MediaType.parse("code"), APP_TOKEN));
             partMap.put("house_no", RequestBody.create(MediaType.parse("house_no"), house));
             partMap.put("street_name", RequestBody.create(MediaType.parse("street_name"), streetName));
             partMap.put("country_name", RequestBody.create(MediaType.parse("country_name"), country));
             partMap.put("vehicle_no", RequestBody.create(MediaType.parse("vehicle_no"), vehicleNumber));
+
             partMap.put("vehicle_reg_no", RequestBody.create(MediaType.parse("vehicle_reg_no"), vehicleResg));
+
             partMap.put("state", RequestBody.create(MediaType.parse("state"), state));
             partMap.put("postcode", RequestBody.create(MediaType.parse("postcode"), postCode));
             partMap.put("suburb", RequestBody.create(MediaType.parse("suburb"), city));

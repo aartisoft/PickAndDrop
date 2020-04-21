@@ -159,7 +159,7 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
             signUpBinding.llVehicleText.setVisibility(View.VISIBLE);
             signUpBinding.llType.setVisibility(View.VISIBLE);
             signUpBinding.etVehicleNumber.setVisibility(View.VISIBLE);
-            signUpBinding.etRegistration.setVisibility(View.VISIBLE);
+           // signUpBinding.etRegistration.setVisibility(View.VISIBLE);
             signUpBinding.etDob.setVisibility(View.VISIBLE);
 
             HashMap<String, String> hashMap1 = new HashMap<>();
@@ -341,15 +341,19 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_last_name), getString(R.string.ok), false);
             signUpBinding.etLastName.requestFocus();
             return false;
-        } else if (email == null || email.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (!utilities.checkEmail(email)) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (mobile.trim().length() == 0) {
+        }         else if (email !=null && !email.equals("") && !email.isEmpty()) {
+            // utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
+            // signUpBinding.etEmail.requestFocus();
+            if (!utilities.checkEmail(email)) {
+                utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+                signUpBinding.etEmail.requestFocus();
+                return false;
+            }
+
+        }
+
+
+        else if (!utilities.checkMobile(mobile)) {
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
             signUpBinding.etMobile.requestFocus();
             return false;
@@ -395,16 +399,18 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_last_name), getString(R.string.ok), false);
             signUpBinding.etLastName.requestFocus();
             return false;
-        } else if (email == null || email.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (!utilities.checkEmail(email)) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
-            signUpBinding.etEmail.requestFocus();
-            return false;
-        } else if (mobile.trim().length() == 0) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
+        }         else if (email !=null && !email.equals("") && !email.isEmpty()) {
+            // utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
+            // signUpBinding.etEmail.requestFocus();
+            if (!utilities.checkEmail(email)) {
+                utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+                signUpBinding.etEmail.requestFocus();
+                return false;
+            }
+
+        }
+        else if (!utilities.checkMobile(mobile)) {
+            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_mobile_number), getString(R.string.ok), false);
             signUpBinding.etMobile.requestFocus();
             return false;
 //        } else if (!utilities.checkMobile(mobile)) {
@@ -445,11 +451,12 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
             utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_vehicle_number), getString(R.string.ok), false);
             signUpBinding.etVehicleNumber.requestFocus();
             return false;
-        } else if (vehicleResg == null || vehicleResg.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_vehicle_reg_number), getString(R.string.ok), false);
-            signUpBinding.etRegistration.requestFocus();
-            return false;
         }
+//        else if (vehicleResg == null || vehicleResg.equals("")) {
+//            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_vehicle_reg_number), getString(R.string.ok), false);
+//            signUpBinding.etRegistration.requestFocus();
+//            return false;
+//        }
         return true;
     }
 
@@ -543,7 +550,7 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
             partMap.put("street_name", RequestBody.create(MediaType.parse("street_name"), streetName));
             partMap.put("country_name", RequestBody.create(MediaType.parse("country_name"), country));
             partMap.put("vehicle_no", RequestBody.create(MediaType.parse("vehicle_no"), vehicleNumber));
-            partMap.put("vehicle_reg_no", RequestBody.create(MediaType.parse("vehicle_reg_no"), vehicleResg));
+            partMap.put("vehicle_reg_no", RequestBody.create(MediaType.parse("vehicle_reg_no"), ""));
             partMap.put("state", RequestBody.create(MediaType.parse("state"), state));
             partMap.put("postcode", RequestBody.create(MediaType.parse("postcode"), postCode));
             partMap.put("suburb", RequestBody.create(MediaType.parse("suburb"), city));

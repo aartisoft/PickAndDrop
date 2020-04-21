@@ -168,10 +168,10 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             createOrderOneBinding.etLastName.setText(appSession.getUser().getData().getLastname());
             //createOrderOneBinding.etEmail.setText(appSession.getUser().getData().getEmail());
             createOrderOneBinding.etMobile.setText(appSession.getUser().getData().getPhone());
-            createOrderOneBinding.etPickupAddress.setText(appSession.getUser().getData().getHouseNo() + ", " +
-                    appSession.getUser().getData().getStreetName() + ", " + appSession.getUser().getData().getCity() + ", " +
-                    appSession.getUser().getData().getState() + ", " + appSession.getUser().getData().getCountryName() + ", " +
-                    appSession.getUser().getData().getPostcode());
+//            createOrderOneBinding.etPickupAddress.setText(appSession.getUser().getData().getHouseNo() + ", " +
+//                    appSession.getUser().getData().getStreetName() + ", " + appSession.getUser().getData().getCity() + ", " +
+//                    appSession.getUser().getData().getState() + ", " + appSession.getUser().getData().getCountryName() + ", " +
+//                    appSession.getUser().getData().getPostcode());
         }
 
         //createOrderOneBinding.ccp.setCountryForPhoneCode(Integer.parseInt(data.getPickupCountryCode()));
@@ -181,7 +181,11 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
     }
 
     private void initToolBar() {
-
+        if (deliveryType.equalsIgnoreCase("shop_deliver")) {
+            createOrderOneBinding.toolbarTitle.setText("Pabili Order");
+        }else {
+            createOrderOneBinding.toolbarTitle.setText("Pick&Deliver Order");
+        }
     }
 
     private void initView() {
@@ -294,13 +298,13 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             case R.id.iv_back:
                 ((DrawerContentSlideActivity) context).popFragment();
                 break;
-//            case R.id.et_pickup_address:
-//                try {
-//                    startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
-//                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-//                    e.printStackTrace();
-//                }
-//                break;
+            case R.id.et_pickup_address:
+                try {
+                    startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                break;
             case R.id.et_delivery_date:
                 mYear = c.get(Calendar.YEAR);
                 mMonth = c.get(Calendar.MONTH);

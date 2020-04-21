@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:textSize="@dimen/text_size_extra_normal"
-                        android:text="Delivery Address"
+                        android:text="Shop/pickup address"
                         android:textColor="@color/white_color" />
 
                     <View

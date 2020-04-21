@@ -86,7 +86,7 @@
                     android:id="@+id/iv_vehicle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/truck_list"
+                    android:src="@drawable/bike_list"
                     app:layout_constraintBottom_toBottomOf="@id/ll_desc"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -160,7 +160,7 @@
                     android:paddingTop="@dimen/text_margin_small"
                     android:paddingEnd="@dimen/activity_margin_medium"
                     android:paddingBottom="@dimen/text_margin_small"
-                    android:text="@string/get_proof"
+                    android:text="Pay Transaction Fee"
                     android:textAllCaps="true"
                     android:textColor="@color/white_color"
                     android:textSize="@dimen/text_size_normal"
@@ -169,6 +169,7 @@
                     app:layout_constraintTop_toBottomOf="@id/ll_desc" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,6 +189,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_get" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -242,52 +244,43 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.pickanddrop.utils.ImageViewCircular
-                            android:id="@+id/iv_photo"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:src="@drawable/photo" />
+<!--                        <com.pickanddrop.utils.ImageViewCircular-->
+<!--                            android:id="@+id/iv_photo"-->
+<!--                            android:layout_width="70dp"-->
+<!--                            android:layout_height="70dp"-->
+<!--                            android:src="@drawable/photo" />-->
+
+                        <TextView
+                            android:id="@+id/tv_trans_amt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/activity_margin_medium"
+                            android:paddingEnd="@dimen/activity_margin_medium"
+                            android:paddingBottom="@dimen/text_margin_small"
+                            android:text="Send P50.00 Transaction fee via Gcash to 09474335971"
+                            android:textAllCaps="true"
+                            android:textColor="@color/hint_color"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_size_normal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ll_desc" />
+
+
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_margin_mini_"
-                            android:text="@string/photo"
+                            android:text="Input Reference No below"
                             android:textColor="@color/hint_color"
                             android:textSize="@dimen/text_size_normal" />
+
+
                     </LinearLayout>
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/et_receiver"
-                    style="@style/edit_text_login_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin_medium"
-                    android:gravity="center"
-                    android:hint="@string/receiver_name"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName|textCapWords"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ll_image" />
-
-                <EditText
-                    android:id="@+id/et_amount"
-                    style="@style/edit_text_login_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin_medium"
-                    android:gravity="center"
-                    android:hint="Total Amount Paid by Customer"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_receiver" />
-
-                <EditText
-                    android:visibility="gone"
                     android:id="@+id/et_refrence_nmbr"
                     style="@style/edit_text_login_style"
                     android:layout_width="0dp"
@@ -295,11 +288,12 @@
                     android:layout_marginTop="@dimen/activity_margin_medium"
                     android:gravity="center"
                     android:hint="@string/reference_no"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_amount" />
+                    app:layout_constraintTop_toBottomOf="@id/ll_image" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -75,7 +75,7 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
     private DeliveryDTO.Data deliveryDTO;
     private final int PERMISSIONS_REQUEST_READ_CONTACTS = 4125;
     String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private String imagePath = "", receiverName = "", receiverAmount = "", receiverReference = "";
+    public static String imagePath = "", receiverName = "", receiverAmount = "";
     private String[] SIGNATURE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private Button btn_get_sign, mClear, mGetSign, mCancel;
     private final int PERMISSIONS_REQUEST_READ_SIGNATURE = 188;
@@ -159,9 +159,15 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
             case R.id.btn_submit:
                 receiverName = deliveryStatusBinding.etReceiver.getText().toString();
                 receiverAmount = deliveryStatusBinding.etAmount.getText().toString();
-                receiverReference = deliveryStatusBinding.etRefrenceNmbr.getText().toString();
+                //receiverReference = deliveryStatusBinding.etRefrenceNmbr.getText().toString();
                 if (isValid()){
-                    callDeliveryOrderApi();
+                    //callDeliveryOrderApi();
+
+                    Bundle bundle = new Bundle();
+                    PayTransaction deliveryStatus = new PayTransaction();
+                    bundle.putParcelable("deliveryDTO", deliveryDTO);
+                    deliveryStatus.setArguments(bundle);
+                    replaceFragmentWithBack(R.id.container_main, deliveryStatus, "PayTransaction");
                 }
                 break;
             case R.id.iv_photo:
@@ -235,7 +241,7 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
             partMap.put("signature_name", RequestBody.create(MediaType.parse("signature_name"), receiverName));
 
             partMap.put("received_amt", RequestBody.create(MediaType.parse("received_amt"), receiverAmount));
-            partMap.put("reference_no", RequestBody.create(MediaType.parse("reference_no"), receiverReference));
+           // partMap.put("reference_no", RequestBody.create(MediaType.parse("reference_no"), receiverReference));
 
             APIInterface apiInterface = APIClient.getClient();
             Call<LoginDTO> call = apiInterface.callDeliverOrderApi(partMap, itemsImage);
@@ -296,11 +302,12 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
             utilities.dialogOK(context, "", "Please enter received amount", getString(R.string.ok), false);
             deliveryStatusBinding.etAmount.requestFocus();
             return false;
-        }else if (receiverReference == null || receiverReference.equals("")) {
-            utilities.dialogOK(context, "", "Please enter reference number", getString(R.string.ok), false);
-            deliveryStatusBinding.etRefrenceNmbr.requestFocus();
-            return false;
         }
+//            else if (receiverReference == null || receiverReference.equals("")) {
+//            utilities.dialogOK(context, "", "Please enter reference number", getString(R.string.ok), false);
+//            deliveryStatusBinding.etRefrenceNmbr.requestFocus();
+//            return false;
+//        }
         return true;
     }
 

@@ -203,27 +203,41 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                                 deliveryDetailsBinding.tvDropMobile.setText(getString(R.string.mob_no_txt) + " - " + data.getDropoffMobNumber());
                                 deliveryDetailsBinding.tvDropAddress.setText(getString(R.string.drop_off_txt) + " - " + data.getDropoffaddress());
 
-                                deliveryDetailsBinding.tvParcelHeight.setText(getString(R.string.parcel_h_txt) + " - " + data.getParcelHeight());
-                                deliveryDetailsBinding.tvParcelWidth.setText(getString(R.string.parcel_wid_txt) + " - " + data.getParcelWidth());
-                                deliveryDetailsBinding.tvParcelLenght.setText(getString(R.string.parcel_l_txt) + " - " + data.getParcelLenght());
-                                deliveryDetailsBinding.tvParcelWeight.setText(getString(R.string.parcel_w_txt) + " - " + data.getParcelWeight());
+                                if (data.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+                                   deliveryDetailsBinding.tvDropOffHeading.setText("Shop/pickup location");
+                                   deliveryDetailsBinding.tvDeliHead.setText("Delivery address");
+                                }else {
+                                    deliveryDetailsBinding.tvDropOffHeading.setText("Pickup info");
+                                    deliveryDetailsBinding.tvDeliHead.setText("Delivery info");
+                                }
+
+                               // deliveryDetailsBinding.tvParcelHeight.setText(getString(R.string.parcel_h_txt) + " - " + data.getParcelHeight());
+                               // deliveryDetailsBinding.tvParcelWidth.setText(getString(R.string.parcel_wid_txt) + " - " + data.getParcelWidth());
+                               // deliveryDetailsBinding.tvParcelLenght.setText(getString(R.string.parcel_l_txt) + " - " + data.getParcelLenght());
+                              //  deliveryDetailsBinding.tvParcelWeight.setText(getString(R.string.parcel_w_txt) + " - " + data.getParcelWeight());
 
                                 deliveryDetailsBinding.tvRemainingTime.setText(getString(R.string.due_in) + " - " + data.getDeliveryTimeDuration());
                                 deliveryDetailsBinding.tvItemDesc.setText(getString(R.string.item_des_txt) + " - " + data.getItemDescription());
+                                deliveryDetailsBinding.tvCostGoods.setText(getString(R.string.amonunt_txt) + " - " + getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(data.getItemQuantity())));
 
 
                                 if (appSession.getUserType().equals(DRIVER)) {
 
                                     try {
                                         deliveryDetailsBinding.tvDeliveryCharges.setText(getString(R.string.amonunt_txt) + " - " + getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(data.getDeliveryCost())));
+
                                     } catch (Exception e) {
                                         deliveryDetailsBinding.tvDeliveryCharges.setText(context.getString(R.string.us_dollar));
                                         e.printStackTrace();
                                     }
 
                                     deliveryDetailsBinding.btnReport.setVisibility(View.VISIBLE);
+
                                     if (data.getDeliveryStatus().equals("6")) {
                                         deliveryDetailsBinding.btnDeliver.setText(getString(R.string.pickup));
+                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.VISIBLE);
+                                    }else if (deliveryDetailsBinding.btnDeliver.getText().toString().equalsIgnoreCase("Deliver")){
+                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.VISIBLE);
                                     }
 
                                     if (historyStatus) {

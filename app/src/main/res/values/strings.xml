@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pick&amp;Drop</string>
+    <string name="app_name">Pabili</string>
     <!--Error-->
     <string name="congratulation">Congratulations</string>
     <string name="server_error">Can not connect to server! Please try again.</string>
@@ -156,7 +156,7 @@
     <string name="signin_txt">SIGN IN</string>
     <string name="login_txt">LOGIN</string>
     <string name="delivery_address">Delivery Address</string>
-    <string name="pickup_address">Pickup Address</string>
+    <string name="pickup_address">Shop/Pickup address</string>
     <string name="colon">:</string>
     <string name="delivery_pri">Delivery Price</string>
     <string name="service_pri">Service Price</string>
@@ -210,7 +210,7 @@
     <string name="pickup">Pickup</string>
     <string name="drop_off_txt">Dropoff Address</string>
     <string name="vehicle_type_txt">Select Vehicle Type</string>
-    <string name="vehicle_no_txt">Vehicle Number</string>
+    <string name="vehicle_no_txt">Plate Number</string>
     <string name="vehicle_reg_no_txt">Vehicle registration number</string>
     <string name="submit_txt">Submit</string>
     <string name="register_txt">Register</string>
@@ -261,7 +261,7 @@
 
     <string name="vehicle_type">Vehicle Type</string>
     <string name="car">Car</string>
-    <string name="bike">bike</string>
+    <string name="bike">Bike</string>
     <string name="van">Van</string>
     <string name="truck">Truck</string>
 
@@ -344,4 +344,6 @@
     <string name="descri">Description</string>
     <string name="name">Name</string>
     <string name="reference_no">Reference No.</string>
+    <string name="please_enter_driving_licence">Please enter Driving Licence Number</string>
+    <string name="driver_licence">Driver licence number</string>
 </resources>
