@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/titillium_regular"
-                android:text="@string/delivery"
+                android:text="Open Orders Nearby"
                 android:paddingEnd="@dimen/activity_margin_normal_"
                 android:layout_centerVertical="true"
                 android:visibility="gone"

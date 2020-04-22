@@ -586,7 +586,7 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     private void Exit() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
                 .setMessage(getString(R.string.exit_text))
-                .setIcon((int) R.drawable.pabili_logo)
+                .setIcon((int) R.drawable.edit_logo_pabili)
                 .setPositiveButton(getResources().getString(R.string.yes), new C03424())
                 .setNegativeButton(getResources().getString(R.string.no), new C03435()).show();
     }

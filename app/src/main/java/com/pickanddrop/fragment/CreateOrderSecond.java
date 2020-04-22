@@ -57,7 +57,8 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
     private AppSession appSession;
     private Utilities utilities;
     private CreateOrderTwoBinding createOrderTwoBinding;
-    private String countryCode = "", dropOffLat = "", dropOffLong = "", companyName = "", firstName = "", lastName = "", mobile = "", dropOffAddress = "", dropOffSpecialInstruction = "",
+    private String countryCode = "", dropOffLat = "", dropOffLong = "", companyName = "", firstName = "", lastName = "", mobile = "",
+            dropOffAddress = "", dropOffSpecialInstruction = "",
             vehicleType = "Bike", parcelHeight = "", parcelWidth = "", parcelWeight = "", parcelLenght = "";
     private DeliveryDTO.Data deliveryDTO;
     private PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -273,7 +274,7 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                     deliveryDTO.setDropoffFirstName(firstName);
                     deliveryDTO.setDropoffLastName(lastName);
                     deliveryDTO.setDropoffMobNumber(mobile);
-                    deliveryDTO.setDropoffaddress(dropOffAddress);
+                    deliveryDTO.setPickupaddress(dropOffAddress);
                   //  deliveryDTO.setParcelHeight(parcelHeight);
                    // deliveryDTO.setParcelLenght(parcelLenght);
                    // deliveryDTO.setParcelWeight(parcelWeight);

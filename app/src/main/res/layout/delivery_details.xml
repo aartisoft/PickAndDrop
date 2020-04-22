@@ -38,7 +38,7 @@
                     android:layout_gravity="center"
                     android:layout_height="90dp"
                     android:layout_marginTop="@dimen/activity_margin_normal_"
-                    android:src="@drawable/pabili_logo"
+                    android:src="@drawable/edit_logo_pabili"
                     android:visibility="visible" />
 
                 <LinearLayout
@@ -238,28 +238,6 @@
                         android:layout_marginTop="@dimen/text_margin_small"
                         android:fontFamily="@font/titillium_regular"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size_normal"
-                        android:text="Service charge"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:textColor="@color/black_color"
-                        android:layout_marginTop="@dimen/activity_margin_normal"
-                        android:fontFamily="@font/titillium_regular"/>
-
-                    <TextView
-                        android:id="@+id/tv_delivery_charges"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_normal"
-                        tools:text="@string/drofoffinfo_txt"
-                        android:textColor="@color/white_color"
-                        android:layout_marginTop="@dimen/text_margin_small"
-                        android:fontFamily="@font/titillium_regular"/>
-
 
 
                     <TextView
@@ -276,6 +254,28 @@
 
                     <TextView
                         android:id="@+id/tv_cost_goods"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal"
+                        tools:text="@string/drofoffinfo_txt"
+                        android:textColor="@color/white_color"
+                        android:layout_marginTop="@dimen/text_margin_small"
+                        android:fontFamily="@font/titillium_regular"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size_normal"
+                        android:text="Service charge"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_color"
+                        android:layout_marginTop="@dimen/activity_margin_normal"
+                        android:fontFamily="@font/titillium_regular"/>
+
+                    <TextView
+                        android:id="@+id/tv_delivery_charges"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_normal"

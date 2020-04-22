@@ -123,7 +123,7 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
 
         if (appSession.getUserType().equals(DRIVER)) {
             signUpBinding.llVehicleText.setVisibility(View.VISIBLE);
-            signUpBinding.llType.setVisibility(View.VISIBLE);
+            signUpBinding.llType.setVisibility(View.GONE);
             signUpBinding.etVehicleNumber.setVisibility(View.VISIBLE);
             signUpBinding.etRegistration.setVisibility(View.VISIBLE);
             signUpBinding.etDob.setVisibility(View.VISIBLE);

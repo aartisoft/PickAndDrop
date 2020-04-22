@@ -98,9 +98,9 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
         switch (view.getId()) {
         case R.id.btn_submit:
         receiverReference = binding.etRefrenceNmbr.getText().toString();
-        if (isValid()){
+       // if (isValid()){
             callDeliveryOrderApi();
-        }
+       // }
         break;
             case R.id.iv_back:
                 ((DrawerContentSlideActivity) context).popFragment();
@@ -171,7 +171,7 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
                                 utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((DrawerContentSlideActivity) context).popAllFragment();
+                                      //  ((DrawerContentSlideActivity) context).popAllFragment();
                                         replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
                                     }
 

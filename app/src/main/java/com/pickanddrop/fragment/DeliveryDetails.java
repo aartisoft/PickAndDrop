@@ -234,10 +234,17 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                                     deliveryDetailsBinding.btnReport.setVisibility(View.VISIBLE);
 
                                     if (data.getDeliveryStatus().equals("6")) {
-                                        deliveryDetailsBinding.btnDeliver.setText(getString(R.string.pickup));
-                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.VISIBLE);
+                                        if (data.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+                                            deliveryDetailsBinding.btnDeliver.setText("Items Paid");
+                                            deliveryDetailsBinding.llEtAmt.setVisibility(View.VISIBLE);
+                                        }else {
+                                            deliveryDetailsBinding.btnDeliver.setText("Pickup");
+                                        }
+
                                     }else if (deliveryDetailsBinding.btnDeliver.getText().toString().equalsIgnoreCase("Deliver")){
-                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.VISIBLE);
+                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.GONE);
+                                    }else if (deliveryDetailsBinding.btnDeliver.getText().toString().equalsIgnoreCase("Accept")){
+                                        deliveryDetailsBinding.llEtAmt.setVisibility(View.GONE);
                                     }
 
                                     if (historyStatus) {

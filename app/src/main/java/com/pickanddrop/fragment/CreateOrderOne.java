@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
     private CreateOrderOneBinding createOrderOneBinding;
     private String countryCode = "", deliveryType = "", pickupLat = "", pickupLong = "", companyName = "", firstName = "",
             lastName = "", mobile = "", pickUpAddress = "", itemDescription = "", itemQuantity = "", deliDate = "",
-            deliTime = "", specialInstruction = "";
+            deliTime = "", specialInstruction = "", dropOffAddress = "",dropOffLat = "", dropOffLong = "";
     private PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
     private static final int REQUEST_PICK_PLACE = 2345;
     private int mYear, mMonth, mDay;
@@ -111,34 +112,34 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             setValues();
         }
 
-
-        createOrderOneBinding.etPickupAddress.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (createOrderOneBinding.etPickupAddress.getRight() - createOrderOneBinding.etPickupAddress.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        // your action here
-
-                        try {
-                            startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
-                        } catch
-                        (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException
-                                        e) {
-                            e.printStackTrace();
-                        }
-
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
+//
+//        createOrderOneBinding.etPickupAddress.setOnTouchListener(new View.OnTouchListener() {
+//            @SuppressLint("ClickableViewAccessibility")
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                final int DRAWABLE_LEFT = 0;
+//                final int DRAWABLE_TOP = 1;
+//                final int DRAWABLE_RIGHT = 2;
+//                final int DRAWABLE_BOTTOM = 3;
+//
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    if (event.getRawX() >= (createOrderOneBinding.etPickupAddress.getRight() - createOrderOneBinding.etPickupAddress.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+//                        // your action here
+//
+//                        try {
+//                            startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
+//                        } catch
+//                        (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException
+//                                        e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//        });
 
     }
 
@@ -151,6 +152,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             createOrderOneBinding.etLastName.setText(data.getPickupLastName());
             createOrderOneBinding.etMobile.setText(data.getPickupMobNumber());
             createOrderOneBinding.etPickupAddress.setText(data.getPickupaddress());
+            createOrderOneBinding.etDropoffAddress.setText(data.getDropoffaddress());
             createOrderOneBinding.etItemDescription.setText(data.getItemDescription());
             createOrderOneBinding.etItemQuantity.setText(data.getItemQuantity());
             createOrderOneBinding.etDeliveryDate.setText(data.getDeliveryDate());
@@ -161,8 +163,10 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             pickupLat = data.getPickupLat();
             pickupLong = data.getPickupLong();
 
-        } else {
+            dropOffLat = deliveryDTO.getDropoffLat();
+            dropOffLong = deliveryDTO.getDropoffLong();
 
+        } else {
             //createOrderOneBinding.etCompany.setText(appSession.getUser().getData().getCompanyName());
             createOrderOneBinding.etFirstName.setText(appSession.getUser().getData().getFirstname());
             createOrderOneBinding.etLastName.setText(appSession.getUser().getData().getLastname());
@@ -183,8 +187,12 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
     private void initToolBar() {
         if (deliveryType.equalsIgnoreCase("shop_deliver")) {
             createOrderOneBinding.toolbarTitle.setText("Pabili Order");
+            createOrderOneBinding.llShopDeliverHead.setVisibility(View.VISIBLE);
         }else {
             createOrderOneBinding.toolbarTitle.setText("Pick&Deliver Order");
+            createOrderOneBinding.tvDeliveryHeading.setText("Delivery address");
+            createOrderOneBinding.etPickupAddress.setHint("Delivery address");
+
         }
     }
 
@@ -193,6 +201,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
         c = Calendar.getInstance();
         createOrderOneBinding.ivBack.setOnClickListener(this);
         createOrderOneBinding.etPickupAddress.setOnClickListener(this);
+        createOrderOneBinding.etDropoffAddress.setOnClickListener(this);
         createOrderOneBinding.btnNext.setOnClickListener(this);
         createOrderOneBinding.etDeliveryDate.setOnClickListener(this);
         createOrderOneBinding.etDeliveryTime.setOnClickListener(this);
@@ -217,6 +226,7 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                 deliDate = createOrderOneBinding.etDeliveryDate.getText().toString();
                 deliTime = createOrderOneBinding.etDeliveryTime.getText().toString();
                 specialInstruction = createOrderOneBinding.etPickSpecialInst.getText().toString();
+                dropOffAddress = createOrderOneBinding.etDropoffAddress.getText().toString();
 
                 if (isValid()) {
 
@@ -235,10 +245,13 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                     deliveryDTO.setPickupFirstName(firstName);
                     deliveryDTO.setPickupLastName(lastName);
                     deliveryDTO.setPickupMobNumber(mobile);
-                    deliveryDTO.setPickupaddress(pickUpAddress);
+                    deliveryDTO.setDropoffaddress(pickUpAddress);
                     deliveryDTO.setDeliveryDate(deliDate);
                     deliveryDTO.setDeliveryTime(deliTime);
                     deliveryDTO.setPickupSpecialInst(specialInstruction);
+                    deliveryDTO.setPickupaddress(dropOffAddress);
+                    deliveryDTO.setDropoffLat(dropOffLat);
+                    deliveryDTO.setDropoffLong(dropOffLong);
 
                     if (pickupLat.equalsIgnoreCase("") &&
                             pickupLong.equalsIgnoreCase("")){
@@ -280,6 +293,23 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
                         if (rescheduleStatus) {
                             CallRescheduleOrderBookApi();
                         }else {
+                            Location loc1 = new Location("");
+                            loc1.setLatitude(Double.parseDouble(deliveryDTO.getPickupLat()));
+                            loc1.setLongitude(Double.parseDouble(deliveryDTO.getPickupLong()));
+
+                            Location loc2 = new Location("");
+                            loc2.setLatitude(Double.parseDouble(dropOffLat));
+                            loc2.setLongitude(Double.parseDouble(dropOffLong));
+
+                            float distanceInkms = (loc1.distanceTo(loc2)) / 1000;
+
+                            try {
+                                deliveryDTO.setDeliveryDistance(String.format("%.2f", Double.parseDouble(distanceInkms + "")));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
                             bundle.putParcelable("deliveryDTO", deliveryDTO);
                             deliveryCheckout.setArguments(bundle);
                             replaceFragmentWithBack(R.id.container_main, deliveryCheckout, "DeliveryCheckout");
@@ -301,6 +331,13 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             case R.id.et_pickup_address:
                 try {
                     startActivityForResult(builder.build(getActivity()), REQUEST_PICK_PLACE);
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                break;
+             case R.id.et_dropoff_address:
+                try {
+                    startActivityForResult(builder.build(getActivity()), 101);
                 } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
@@ -371,7 +408,11 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             map.put("dropoff_last_name", "");
             map.put("dropoff_mob_number", "");
             map.put("dropoff_special_inst", "");
-            map.put("dropoffaddress", "");
+
+            map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
+            map.put("dropOffLong", deliveryDTO.getDropoffLong());
+            map.put("dropOffLat", deliveryDTO.getDropoffLat());
+
             map.put("parcel_height", "");
             map.put("parcel_width", "");
             map.put("parcel_lenght", "");
@@ -385,8 +426,6 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             map.put("vehicle_type", deliveryDTO.getVehicleType());
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());
-            map.put("dropOffLong", "");
-            map.put("dropOffLat", "");
             map.put("delivery_time", deliveryDTO.getDeliveryTime());
             map.put(PN_APP_TOKEN, APP_TOKEN);
             map.put("dropoff_country_code", "63");
@@ -477,6 +516,13 @@ public class CreateOrderOne extends BaseFragment implements AppConstants, View.O
             pickupLat = place.getLatLng().latitude + "";
             pickupLong = place.getLatLng().longitude + "";
             createOrderOneBinding.etPickupAddress.setText(getAddressFromLatLong(place.getLatLng().latitude, place.getLatLng().longitude, false));
+        } else if (requestCode == 101 && resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(context, data);
+
+            Log.i(getClass().getName(), "Class is >>>>>" + place.getName() + " " + place.getAddress() + "   " + place.getLatLng());
+            dropOffLat = place.getLatLng().latitude + "";
+            dropOffLong = place.getLatLng().longitude + "";
+            createOrderOneBinding.etDropoffAddress.setText(getAddressFromLatLong(place.getLatLng().latitude, place.getLatLng().longitude, false));
         }
     }
 

@@ -88,11 +88,11 @@ public class ForgotPassword extends BaseFragment implements AppConstants, View.O
 
     public boolean isValid() {
         if (email == null || email.equals("")) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_email), getString(R.string.ok), false);
+            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_mobile_number), getString(R.string.ok), false);
             forgotPasswordBinding.etEmail.requestFocus();
             return false;
-        } else if (!utilities.checkEmail(email)) {
-            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_email), getString(R.string.ok), false);
+        } else if (!utilities.checkMobile(email)) {
+            utilities.dialogOK(context, getString(R.string.validation_title), getString(R.string.please_enter_valid_mobile_number), getString(R.string.ok), false);
             forgotPasswordBinding.etEmail.requestFocus();
             return false;
         }

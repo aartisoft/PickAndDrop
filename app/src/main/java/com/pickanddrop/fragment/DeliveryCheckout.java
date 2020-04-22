@@ -237,13 +237,16 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                 map.put("dropoff_last_name", deliveryDTO.getDropoffLastName());
                 map.put("dropoff_mob_number", deliveryDTO.getDropoffMobNumber());
                 map.put("dropoff_special_inst", deliveryDTO.getDropoffSpecialInst());
-                map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
             }
 
             //map.put("parcel_height", deliveryDTO.getParcelHeight());
            // map.put("parcel_width", deliveryDTO.getParcelWidth());
           //  map.put("parcel_lenght", deliveryDTO.getParcelLenght());
           //  map.put("parcel_weight", deliveryDTO.getParcelWeight());
+            map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
+            map.put("dropOffLong", deliveryDTO.getDropoffLong());
+            map.put("dropOffLat", deliveryDTO.getDropoffLat());
+
             map.put("delivery_type", deliveryDTO.getDeliveryType());
             if (deliveryDTO.getDeliveryDistance()!=null){
                 map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
@@ -269,12 +272,8 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("pickUpLong", deliveryDTO.getPickupLong());
 
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
-                map.put("dropOffLong", deliveryDTO.getDropoffLong());
-                map.put("dropOffLat", deliveryDTO.getDropoffLat());
                 map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
             }else {
-                map.put("dropOffLong", "");
-                map.put("dropOffLat", "");
                 map.put("driver_delivery_cost", "");
             }
 

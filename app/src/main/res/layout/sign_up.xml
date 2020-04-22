@@ -198,6 +198,7 @@
                     </LinearLayout>
 
                     <EditText
+                        android:visibility="gone"
                         android:id="@+id/et_email"
                         style="@style/edit_text_login_style"
                         android:layout_width="match_parent"
