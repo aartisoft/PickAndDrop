@@ -126,4 +126,9 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("contact_us")
     Call<OtherDTO> callContactApi(@FieldMap Map<String, String> map);
+
+
+    @FormUrlEncoded
+    @POST("pay_txn_fee")
+    Call<LoginDTO> callTxnPayApi(@FieldMap Map<String, String> partMap);
 }

@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:textSize="@dimen/text_size_extra_normal"
-                        android:text="@string/drofoffinfo_txt"
+                        android:text="Pickup info"
                         android:textColor="@color/white_color" />
 
                     <View
@@ -205,6 +205,7 @@
 
                     <!--                    com.rilixtech.CountryCodePicker-->
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/ccp"
                         android:layout_width="0dp"
                         android:layout_weight="3.5"
@@ -246,7 +247,6 @@
                         android:layout_height="wrap_content"
                         android:autofillHints="@string/mob_no_txt"
                         android:hint="@string/mob_no_txt"
-                        android:layout_marginStart="@dimen/activity_margin_normal"
                         android:maxLength="11"
                         android:imeOptions="actionNext"
                         android:inputType="phone" />
@@ -286,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:textSize="@dimen/text_size_extra_normal"
-                        android:text="@string/dropofadd_no_txt"
+                        android:text="Pickup Adddress"
                         android:textColor="@color/white_color" />
 
                     <View

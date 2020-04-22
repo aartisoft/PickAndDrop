@@ -67,6 +67,7 @@ import com.pickanddrop.fragment.ContactFragment;
 import com.pickanddrop.fragment.CurrentList;
 import com.pickanddrop.fragment.DriverHome;
 import com.pickanddrop.fragment.Home;
+import com.pickanddrop.fragment.PayTransaction;
 import com.pickanddrop.fragment.Profile;
 import com.pickanddrop.fragment.TermsFragment;
 import com.pickanddrop.utils.AppConstants;
@@ -554,11 +555,17 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
             if (appSession.getUserType().equals(DRIVER)) {
 
                 DriverHome myFragment = (DriverHome) getSupportFragmentManager().findFragmentByTag("DriverHome");
+                PayTransaction payTransaction = (PayTransaction) getSupportFragmentManager().findFragmentByTag("PayTransaction");
                 if (myFragment != null && myFragment.isVisible()) {
                     // add your code here
                     //finish();
                     Exit();
-                } else {
+                } else if (payTransaction != null && payTransaction.isVisible()) {
+
+                    utilities.dialogOK(context, "", "Please Pay Transaction Fee", getString(R.string.ok), false);
+
+                }else {
+
                     super.onBackPressed();
                 }
 
@@ -580,7 +587,9 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     }
 
     private void Logout() {
-        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name)).setMessage(getString(R.string.logout_text)).setIcon((int) R.mipmap.ic_launcher).setPositiveButton(getResources().getString(R.string.yes), new C03446()).setNegativeButton(getResources().getString(R.string.no), new C03435()).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name)).setMessage(getString(R.string.logout_text))
+                .setIcon((int) R.drawable.edit_logo_pabili)
+                .setPositiveButton(getResources().getString(R.string.yes), new C03446()).setNegativeButton(getResources().getString(R.string.no), new C03435()).show();
     }
 
     private void Exit() {

@@ -60,7 +60,7 @@
                 android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/white_color"
-                android:textSize="@dimen/text_size_extra_normal" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

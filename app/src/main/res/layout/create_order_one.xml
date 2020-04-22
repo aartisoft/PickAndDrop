@@ -124,6 +124,7 @@
 
                     <!--                    com.rilixtech.CountryCodePicker-->
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/ccp"
                         android:layout_width="0dp"
                         android:layout_weight="3.5"
@@ -149,7 +150,6 @@
                         android:layout_height="wrap_content"
                         android:autofillHints="@string/mob_no_txt"
                         android:hint="@string/mob_no_txt"
-                        android:layout_marginStart="@dimen/activity_margin_normal"
                         android:maxLength="11"
                         android:imeOptions="actionNext"
                         android:inputType="phone" />

@@ -288,7 +288,7 @@
                     android:layout_marginTop="@dimen/activity_margin_medium"
                     android:gravity="center"
                     android:hint="@string/reference_no"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

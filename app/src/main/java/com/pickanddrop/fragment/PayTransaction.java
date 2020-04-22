@@ -89,7 +89,7 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
         binding.tvDeliveryDate.setText(getString(R.string.delivery_datein_txt) +" - "+ deliveryDTO.getDeliveryDate());
         binding.tvDeliveryTime.setText(getString(R.string.delivery_time) +" - "+ deliveryDTO.getDeliveryTime());
 
-        binding.tvTransAmt.setText("Send ₱"+receiverAmount+" Transaction fee via Gcash to 09474335971");
+        binding.tvTransAmt.setText("Send ₱50"+" Transaction fee via Gcash to 09474335971");
     }
 
 
@@ -98,12 +98,14 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
         switch (view.getId()) {
         case R.id.btn_submit:
         receiverReference = binding.etRefrenceNmbr.getText().toString();
-       // if (isValid()){
+        if (isValid()){
             callDeliveryOrderApi();
-       // }
+        }
         break;
             case R.id.iv_back:
-                ((DrawerContentSlideActivity) context).popFragment();
+               // ((DrawerContentSlideActivity) context).popFragment();
+                utilities.dialogOK(context, "", "Please Pay Transaction Fee", getString(R.string.ok), false);
+
                 break;
     }
     }
@@ -128,17 +130,17 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
             mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             mProgressDialog.setCancelable(false);
 
-            Map<String, RequestBody> partMap = new HashMap<>();
+            Map<String, String> partMap = new HashMap<>();
 
-            if (!imagePath.equals("")) {
-                try {
-                    File profileImageFile = new File(imagePath);
-                    RequestBody propertyImage = RequestBody.create(MediaType.parse("image/*"), profileImageFile);
-                    itemsImage = MultipartBody.Part.createFormData("client_image", profileImageFile.getName(), propertyImage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (!imagePath.equals("")) {
+//                try {
+//                    File profileImageFile = new File(imagePath);
+//                    RequestBody propertyImage = RequestBody.create(MediaType.parse("image/*"), profileImageFile);
+//                    itemsImage = MultipartBody.Part.createFormData("client_image", profileImageFile.getName(), propertyImage);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
 //            if (!StoredPath.equals("")) {
 //                try {
@@ -150,15 +152,14 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
 //                }
 //            }
 
-            partMap.put("order_id", RequestBody.create(MediaType.parse("order_id"), deliveryDTO.getOrderId()));
-            partMap.put("code", RequestBody.create(MediaType.parse("code"), APP_TOKEN));
-            partMap.put("signature_name", RequestBody.create(MediaType.parse("signature_name"), receiverName));
-
-            partMap.put("received_amt", RequestBody.create(MediaType.parse("received_amt"), receiverAmount));
-           partMap.put("reference_no", RequestBody.create(MediaType.parse("reference_no"), receiverReference));
+            partMap.put("order_id",  deliveryDTO.getOrderId());
+            partMap.put("code", APP_TOKEN);
+            //partMap.put("signature_name", RequestBody.create(MediaType.parse("signature_name"), receiverName));
+            partMap.put("txn_amt", "50");
+           partMap.put("reference_no",  receiverReference);
 
             APIInterface apiInterface = APIClient.getClient();
-            Call<LoginDTO> call = apiInterface.callDeliverOrderApi(partMap, itemsImage);
+            Call<LoginDTO> call = apiInterface.callTxnPayApi(partMap);
 
             call.enqueue(new Callback<LoginDTO>() {
                 @Override
@@ -168,7 +169,7 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
                     if (response.isSuccessful()) {
                         try {
                             if (response.body().getResult().equalsIgnoreCase("success")) {
-                                utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
+                                utilities.dialogOKre(context, "", "“Payment successful", getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
                                       //  ((DrawerContentSlideActivity) context).popAllFragment();

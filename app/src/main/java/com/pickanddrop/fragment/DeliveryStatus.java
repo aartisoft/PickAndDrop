@@ -161,13 +161,8 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
                 receiverAmount = deliveryStatusBinding.etAmount.getText().toString();
                 //receiverReference = deliveryStatusBinding.etRefrenceNmbr.getText().toString();
                 if (isValid()){
-                    //callDeliveryOrderApi();
+                    callDeliveryOrderApi();
 
-                    Bundle bundle = new Bundle();
-                    PayTransaction deliveryStatus = new PayTransaction();
-                    bundle.putParcelable("deliveryDTO", deliveryDTO);
-                    deliveryStatus.setArguments(bundle);
-                    replaceFragmentWithBack(R.id.container_main, deliveryStatus, "PayTransaction");
                 }
                 break;
             case R.id.iv_photo:
@@ -254,11 +249,17 @@ public class DeliveryStatus extends BaseFragment implements View.OnClickListener
                     if (response.isSuccessful()) {
                         try {
                             if (response.body().getResult().equalsIgnoreCase("success")) {
-                                utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
+                                utilities.dialogOKre(context, "", "Delivery successful", getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((DrawerContentSlideActivity) context).popAllFragment();
-                                        replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
+                                        //((DrawerContentSlideActivity) context).popAllFragment();
+                                       // replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
+
+                                        Bundle bundle = new Bundle();
+                                        PayTransaction deliveryStatus = new PayTransaction();
+                                        bundle.putParcelable("deliveryDTO", deliveryDTO);
+                                        deliveryStatus.setArguments(bundle);
+                                        replaceFragmentWithoutBack(R.id.container_main, deliveryStatus, "PayTransaction");
                                     }
 
                                     @Override
