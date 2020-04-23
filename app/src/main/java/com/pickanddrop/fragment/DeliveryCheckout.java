@@ -90,19 +90,19 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
             }else {
-                    Double basecharge=300.00;
-                if (Double.valueOf(deliveryDTO.getItemQuantity())<=3000.00){
+                    double basecharge=300.00;
+                if (Double.parseDouble(deliveryDTO.getItemQuantity())<=3000.00){
                     deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+basecharge);
-                }else if (Double.valueOf(deliveryDTO.getItemQuantity())>3000.00){
+                }else if (Double.parseDouble(deliveryDTO.getItemQuantity())>3000.00){
 
-                    Double ExtraItemCost=(Double.valueOf(deliveryDTO.getItemQuantity())-3000.00)/1000.00;
+                    Double ExtraItemCost=(Double.parseDouble(deliveryDTO.getItemQuantity())-3000.00)/1000.00;
 
                    // double number = 24.4;
                     String numberAsString = String.valueOf(ExtraItemCost);
                     String decimalPart = numberAsString.split("\\.")[1];
                     //System.out.println(decimalPart);
                     Log.e("decimalPart",""+decimalPart);
-                    if (Integer.valueOf(decimalPart)>0){
+                    if (Integer.parseInt(decimalPart)>0){
 
                         String myString = String.valueOf(ExtraItemCost);
                         String newString = myString.substring(0, myString.indexOf("."));
@@ -113,7 +113,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                         Log.e("decimalPart1",""+TotalExtraItemCost);
 
                         ExtraServicecharge=(TotalExtraItemCost*50.00)+basecharge;
-                      //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
+                        Log.e("ExtraServicecharge",""+ExtraServicecharge+" extra_charge"+ExtraItemCost*50.00);
 
                         deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
 
@@ -133,7 +133,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                     }else {
                         ExtraServicecharge=(ExtraItemCost*50.00)+basecharge;
                         //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
-
+                        Log.e("ExtraServicecharge",""+ExtraServicecharge+" extra_charge"+ExtraItemCost*50.00);
                         deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
 
                         try {
@@ -280,11 +280,11 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
 
             try {
-               // if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
-               // }else {
-               //     map.put("delivery_cost", String.valueOf(ExtraServicecharge));
-               // }
+                }else {
+                    map.put("delivery_cost", String.valueOf(ExtraServicecharge));
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
