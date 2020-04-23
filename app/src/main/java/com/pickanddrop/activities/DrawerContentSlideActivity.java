@@ -73,6 +73,7 @@ import com.pickanddrop.fragment.TermsFragment;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.ImageViewCircular;
+import com.pickanddrop.utils.OnDialogConfirmListener;
 import com.pickanddrop.utils.OnItemClickListener;
 import com.pickanddrop.utils.OnTaskCompleted;
 import com.pickanddrop.utils.Utilities;
@@ -562,7 +563,22 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
                     Exit();
                 } else if (payTransaction != null && payTransaction.isVisible()) {
 
-                    utilities.dialogOK(context, "", "Please Pay Transaction Fee", getString(R.string.ok), false);
+                    utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.ok), new OnDialogConfirmListener() {
+                        @Override
+                        public void onYes() {
+                            ((DrawerContentSlideActivity) context).popFragment();
+                                   //     ((DrawerContentSlideActivity) context).onBackPressed();
+
+                            Intent intent=new Intent(DrawerContentSlideActivity.this,DrawerContentSlideActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onNo() {
+
+                        }
+                    });
 
                 }else {
 

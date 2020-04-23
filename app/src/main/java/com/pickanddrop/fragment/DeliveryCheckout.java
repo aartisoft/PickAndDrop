@@ -44,6 +44,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
     private String email = "";
     private DeliveryDTO.Data deliveryDTO;
     private String TAG = DeliveryCheckout.class.getName();
+    private double ExtraServicecharge=0.0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,19 +112,42 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
                         Log.e("decimalPart1",""+TotalExtraItemCost);
 
-                        Double ExtraServicecharge=(TotalExtraItemCost*50.00)+basecharge;
+                        ExtraServicecharge=(TotalExtraItemCost*50.00)+basecharge;
                       //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
 
                         deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
 
-                        deliveryDTO.setDeliveryCost(String.format("%2f", ExtraServicecharge));
+                        try {
+                            String price = ExtraServicecharge + "";
+                            if (price.contains(",")) {
+                                price = price.replaceAll(",", "");
+                            } else {
+                                price = ExtraServicecharge + "";
+                            }
+
+                            deliveryDTO.setDeliveryCost(String.format("%2f", price));
+                        }catch (Exception e){
+
+                        }
+
                     }else {
-                        Double ExtraServicecharge=(ExtraItemCost*50.00)+basecharge;
+                        ExtraServicecharge=(ExtraItemCost*50.00)+basecharge;
                         //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
 
                         deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
 
-                        deliveryDTO.setDeliveryCost(String.format("%2f", ExtraServicecharge));
+                        try {
+                            String price = ExtraServicecharge + "";
+                            if (price.contains(",")) {
+                                price = price.replaceAll(",", "");
+                            } else {
+                                price = ExtraServicecharge + "";
+                            }
+
+                            deliveryDTO.setDeliveryCost(String.format("%2f", price));
+                        }catch (Exception e){
+
+                        }
                     }
                     //**********************
 
@@ -259,8 +283,8 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                // if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
                // }else {
-                //    map.put("delivery_cost", "300");
-             //   }
+               //     map.put("delivery_cost", String.valueOf(ExtraServicecharge));
+               // }
 
             } catch (Exception e) {
                 e.printStackTrace();

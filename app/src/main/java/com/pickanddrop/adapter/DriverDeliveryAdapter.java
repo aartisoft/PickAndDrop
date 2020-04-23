@@ -1,6 +1,7 @@
 package com.pickanddrop.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.pickanddrop.R;
 import com.pickanddrop.dto.DeliveryDTO;
+import com.pickanddrop.fragment.PayTransaction;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.ImageViewCircular;
@@ -22,16 +24,17 @@ import java.util.ArrayList;
 
 public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAdapter.ViewHolder> implements AppConstants {
     private Context context;
-    private OnItemClickListener.OnItemClickCallback onItemClickCallback;
+    private OnItemClickListener.OnItemClickCallback onItemClickCallback, onItemClickPayment;
     private AppSession appSession;
     private Utilities utilities;
     private RequestOptions requestOptions, requestOptions1;
     private String status = "";
     private ArrayList<DeliveryDTO.Data> deliveryDTOArrayList;
 
-    public DriverDeliveryAdapter(Context context, ArrayList<DeliveryDTO.Data> deliveryDTOArrayList, OnItemClickListener.OnItemClickCallback onItemClickCallback, String status) {
+    public DriverDeliveryAdapter(Context context, ArrayList<DeliveryDTO.Data> deliveryDTOArrayList, OnItemClickListener.OnItemClickCallback onItemClickCallback, OnItemClickListener.OnItemClickCallback onItemClickPayment, String status) {
         this.context = context;
         this.onItemClickCallback = onItemClickCallback;
+        this.onItemClickPayment = onItemClickPayment;
         appSession = new AppSession(context);
         utilities = Utilities.getInstance(context);
         this.status = status;
@@ -58,7 +61,7 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
     }
 
     @Override
-    public void onBindViewHolder(final DriverDeliveryAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final DriverDeliveryAdapter.ViewHolder viewHolder, final int position) {
         if (status.equalsIgnoreCase(context.getString(R.string.notification))) {
             viewHolder.tvDropLoc.setVisibility(View.GONE);
             viewHolder.tvDeliveryContactNo.setVisibility(View.GONE);
@@ -87,6 +90,16 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
             viewHolder.tvDeliveryDate.setText(context.getString(R.string.delivery_datein_txt) +" - "+ deliveryDTOArrayList.get(position).getDeliveryDate());
             viewHolder.tvPickLoc.setText(context.getString(R.string.pickup_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getPickupaddress());
             viewHolder.tvDropLoc.setText(context.getString(R.string.delivery_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getDropoffaddress());
+
+
+            if (appSession.getUserType().equals(DRIVER)){
+               if (deliveryDTOArrayList.get(position).getTxn_status().equalsIgnoreCase("0")){
+                   viewHolder.tv_pay_txn.setVisibility(View.VISIBLE);
+               }else {
+                   viewHolder.tv_pay_txn.setVisibility(View.GONE);
+               }
+
+            }
 
 
             try {
@@ -175,6 +188,7 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
 
 
         viewHolder.itemView.setOnClickListener(new OnItemClickListener(position, onItemClickCallback));
+        viewHolder.tv_pay_txn.setOnClickListener(new OnItemClickListener(position, onItemClickPayment));
     }
 
     @Override
@@ -183,7 +197,8 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvPriceText, tvPrice, tvDeliveryId, tvDeliveryDate, tvPickLoc, tvDropLoc, tvDeliveryContactName, tvDeliveryContactNo, tvDriverName, tvDriverNo;
+        private TextView tvPriceText, tvPrice, tvDeliveryId, tvDeliveryDate, tvPickLoc, tvDropLoc, tvDeliveryContactName,
+                tvDeliveryContactNo, tvDriverName, tvDriverNo,tv_pay_txn;
         private ImageViewCircular ivProfile;
         private ImageView ivVehicle;
         private View viewHours;
@@ -202,6 +217,7 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
             ivVehicle = (ImageView) view.findViewById(R.id.iv_vehicle);
             tvPriceText = (TextView) view.findViewById(R.id.tv_price_text);
             tvPrice = (TextView) view.findViewById(R.id.tv_price);
+            tv_pay_txn = (TextView) view.findViewById(R.id.tv_pay_txn);
 
             viewHours = (View) view.findViewById(R.id.view_hours);
         }

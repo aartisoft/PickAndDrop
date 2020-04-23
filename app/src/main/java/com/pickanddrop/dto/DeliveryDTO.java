@@ -351,6 +351,17 @@ public class DeliveryDTO implements Parcelable{
         @SerializedName("avgratingdriver")
         @Expose
         private String avgratingdriver;
+        @SerializedName("txn_status")
+        @Expose
+        private String txn_status;
+
+        public String getTxn_status() {
+            return txn_status;
+        }
+
+        public void setTxn_status(String txn_status) {
+            this.txn_status = txn_status;
+        }
 
         protected Data(Parcel in) {
             firstname = in.readString();

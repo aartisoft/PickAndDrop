@@ -127,16 +127,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Map<String, String> data = remoteMessage.getData();
                 if(appSession.isLogin()){
 
-
                     Intent intent = new Intent(getBaseContext(), NotificationDialog.class);
                     Bundle bundle = new Bundle();
                     String data1 = data.get("data");
                     JSONObject jsonObject = new JSONObject(data1);
                     Log.i(TAG, "Inner Body : >>>>" + jsonObject.toString());
                     Log.i(TAG, "Inner Body : >>>>" + jsonObject.optJSONObject("payload").toString());
-
-
-
 
                     bundle.putString("title", "" + jsonObject.optString("title"));
                     bundle.putString("filename", "" + jsonObject.optString("image"));
@@ -259,13 +255,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.launcher_background);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.edit_logo_pabili);
+            notificationBuilder.setSmallIcon(R.drawable.launcher_pabili);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.launcher_pabili);
 
             notificationBuilder.setColor(getResources().getColor(R.color.transparent));
             notificationBuilder.setLargeIcon(bitmap);
         }else {
-            notificationBuilder.setSmallIcon(R.drawable.edit_logo_pabili);
+            notificationBuilder.setSmallIcon(R.drawable.launcher_pabili);
         }
 
 

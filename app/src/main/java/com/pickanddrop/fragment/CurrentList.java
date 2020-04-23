@@ -139,6 +139,19 @@ public class CurrentList extends BaseFragment implements View.OnClickListener, A
         }
     };
 
+    OnItemClickListener.OnItemClickCallback onItemClickPayment = new OnItemClickListener.OnItemClickCallback() {
+        @Override
+        public void onItemClicked(View view, final int position) {
+
+            Bundle bundle = new Bundle();
+            PayTransaction deliveryStatus = new PayTransaction();
+            bundle.putParcelable("deliveryDTO", deliveryDTOArrayList.get(position));
+            deliveryStatus.setArguments(bundle);
+            replaceFragmentWithoutBack(R.id.container_main, deliveryStatus, "PayTransaction");
+
+        }
+    };
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -198,7 +211,7 @@ public class CurrentList extends BaseFragment implements View.OnClickListener, A
                                 Log.e(TAG, "Size is >>>>"+deliveryDTOArrayList.size());
 
                                 if (appSession.getUserType().equals(DRIVER)) {
-                                    driverDeliveryAdapter = new DriverDeliveryAdapter(context, deliveryDTOArrayList, onItemClickCallbackDriver, status);
+                                    driverDeliveryAdapter = new DriverDeliveryAdapter(context, deliveryDTOArrayList, onItemClickCallbackDriver, onItemClickPayment,status);
                                     rvListBinding.rvDeliveries.setAdapter(driverDeliveryAdapter);
                                 } else {
                                     currentDeliveryAdapter = new CurrentDeliveryAdapter(context, deliveryDTOArrayList, onItemClickCallback, status);

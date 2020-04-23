@@ -84,7 +84,7 @@
                         android:fontFamily="@font/titillium_regular"/>
 
                     <TextView
-                        android:id="@+id/tv_pick_address"
+                        android:id="@+id/tv_drop_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_normal"
@@ -127,8 +127,9 @@
                         android:layout_marginTop="@dimen/text_margin_small"
                         android:fontFamily="@font/titillium_regular"/>
 
+
                     <TextView
-                        android:id="@+id/tv_drop_address"
+                        android:id="@+id/tv_pick_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_normal"
@@ -136,6 +137,7 @@
                         android:textColor="@color/white_color"
                         android:layout_marginTop="@dimen/text_margin_small"
                         android:fontFamily="@font/titillium_regular"/>
+
 
                     <TextView
                         android:visibility="gone"

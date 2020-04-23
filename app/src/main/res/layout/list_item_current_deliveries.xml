@@ -60,6 +60,7 @@
         app:barrierDirection="end"
         app:constraint_referenced_ids="iv_profile" />
 
+
     <TextView
         android:id="@+id/tv_delivery_id"
         android:layout_marginStart="@dimen/text_margin_small"
@@ -212,6 +213,24 @@
         app:layout_constraintStart_toEndOf="@id/barrier"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_margin_mini" />
+
+        <TextView
+            android:visibility="gone"
+            android:background="@drawable/accept_background"
+            android:id="@+id/tv_pay_txn"
+            android:layout_marginStart="@dimen/text_margin_small"
+            android:fontFamily="@font/titillium_regular"
+            android:textColor="@color/black_color"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_width="0dp"
+            android:text="Pay Transaction Fee"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:ellipsize="end"/>
+
 
     <ImageView
         android:id="@+id/iv_vehicle"

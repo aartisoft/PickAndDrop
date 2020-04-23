@@ -2,6 +2,7 @@ package com.pickanddrop.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,9 +38,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.pickanddrop.fragment.DeliveryStatus.imagePath;
-import static com.pickanddrop.fragment.DeliveryStatus.receiverAmount;
-import static com.pickanddrop.fragment.DeliveryStatus.receiverName;
 
 /**
  * Created by Raghvendra Sahu on 21-Apr-20.
@@ -104,7 +102,26 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
         break;
             case R.id.iv_back:
                // ((DrawerContentSlideActivity) context).popFragment();
-                utilities.dialogOK(context, "", "Please Pay Transaction Fee", getString(R.string.ok), false);
+
+                utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.ok), new OnDialogConfirmListener() {
+                    @Override
+                    public void onYes() {
+                        ((DrawerContentSlideActivity) context).popFragment();
+//                                        ((DrawerContentSlideActivity) context).onBackPressed();
+
+                       //replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
+                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onNo() {
+
+                    }
+                });
+
+
 
                 break;
     }
@@ -169,11 +186,16 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
                     if (response.isSuccessful()) {
                         try {
                             if (response.body().getResult().equalsIgnoreCase("success")) {
-                                utilities.dialogOKre(context, "", "“Payment successful", getString(R.string.ok), new OnDialogConfirmListener() {
+                                utilities.dialogOKre(context, "", "Payment successful", getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
                                       //  ((DrawerContentSlideActivity) context).popAllFragment();
-                                        replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
+                                       // replaceFragmentWithoutBack(R.id.container_main, new CurrentList(), "CurrentList");
+
+                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+
                                     }
 
                                     @Override

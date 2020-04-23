@@ -25,6 +25,7 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateVisible|adjustResize"
         tools:ignore="GoogleAppIndexingWarning"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="q">
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
