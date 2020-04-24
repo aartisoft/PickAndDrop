@@ -103,7 +103,7 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
             case R.id.iv_back:
                // ((DrawerContentSlideActivity) context).popFragment();
 
-                utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.ok), new OnDialogConfirmListener() {
+                utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.yes), new OnDialogConfirmListener() {
                     @Override
                     public void onYes() {
                         ((DrawerContentSlideActivity) context).popFragment();

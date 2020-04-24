@@ -563,7 +563,7 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
                     Exit();
                 } else if (payTransaction != null && payTransaction.isVisible()) {
 
-                    utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.ok), new OnDialogConfirmListener() {
+                    utilities.dialogOKre(context, "", "Are you sure you want to left", getString(R.string.yes), new OnDialogConfirmListener() {
                         @Override
                         public void onYes() {
                             ((DrawerContentSlideActivity) context).popFragment();

@@ -147,8 +147,8 @@ public class CurrentDeliveryAdapter extends RecyclerView.Adapter<CurrentDelivery
                 e.printStackTrace();
             }
 
-            viewHolder.tvDeliveryContactNo.setText(context.getString(R.string.delivery_contact_no_txt) + " - " + deliveryDTOArrayList.get(position).getDropoffMobNumber());
-            viewHolder.tvDeliveryContactName.setText(context.getString(R.string.delivery_contact_name_txt) + " - " + deliveryDTOArrayList.get(position).getDropoffFirstName() + " " + deliveryDTOArrayList.get(position).getDropoffLastName());
+            viewHolder.tvDeliveryContactNo.setText("Pickup contact no." + " - " + deliveryDTOArrayList.get(position).getDropoffMobNumber());
+            viewHolder.tvDeliveryContactName.setText("Pickup contact name" + " - " + deliveryDTOArrayList.get(position).getDropoffFirstName() + " " + deliveryDTOArrayList.get(position).getDropoffLastName());
 
             if (deliveryDTOArrayList.get(position).getPhone() != null && !deliveryDTOArrayList.get(position).getPhone().equals("")) {
                 viewHolder.tvDriverName.setText(context.getString(R.string.driver_name) + " - " + deliveryDTOArrayList.get(position).getFirstname() + " " + deliveryDTOArrayList.get(position).getLastname());
