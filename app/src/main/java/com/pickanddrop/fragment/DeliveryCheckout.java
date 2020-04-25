@@ -283,7 +283,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                 if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
                 }else {
-                    map.put("delivery_cost", String.valueOf(ExtraServicecharge));
+                    map.put("delivery_cost", String.format ("%.2f", ExtraServicecharge));
                 }
 
             } catch (Exception e) {
