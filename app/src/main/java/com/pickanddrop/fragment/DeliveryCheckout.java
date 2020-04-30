@@ -84,8 +84,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         deliveryBookBinding.etPickupAddress.setText(deliveryDTO.getPickupaddress());
         deliveryBookBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
         deliveryBookBinding.etCostGood.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getItemQuantity());
-//        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getDeliveryCost());
-//        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" 20");
+
         try {
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
@@ -93,6 +92,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                     double basecharge=300.00;
                 if (Double.parseDouble(deliveryDTO.getItemQuantity())<=3000.00){
                     deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+basecharge);
+                    ExtraServicecharge=basecharge;
                 }else if (Double.parseDouble(deliveryDTO.getItemQuantity())>3000.00){
 
                     Double ExtraItemCost=(Double.parseDouble(deliveryDTO.getItemQuantity())-3000.00)/1000.00;

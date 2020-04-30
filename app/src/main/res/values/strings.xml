@@ -327,7 +327,7 @@
 
     <string name="not_available">This delivery option is not available at this time.</string>
 
-    //<string name="google_maps_key">AIzaSyC7NOJ5VbOZ2uzheASfYPZVPMniO0QAcys</string>
+    <string name="google_maps_key">AIzaSyC7NOJ5VbOZ2uzheASfYPZVPMniO0QAcys</string>
 <!--    <string name="google_maps_key">AIzaSyCgdluX9Wh0eW5sNbUpJv5KhY4GQXWktg4</string>-->
     <string name="cell_phone_number">Cellphone number</string>
     <string name="email_optional">Email (Optional)</string>
