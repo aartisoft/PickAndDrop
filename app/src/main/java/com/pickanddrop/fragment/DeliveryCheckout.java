@@ -1,5 +1,6 @@
 package com.pickanddrop.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +45,8 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
     private String email = "";
     private DeliveryDTO.Data deliveryDTO;
     private String TAG = DeliveryCheckout.class.getName();
-    private double ExtraServicecharge=0.0;
+    private double ExtraServicecharge = 0.0;
+    private int TotalExtraItemCost;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,83 +75,100 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         initView();
         initToolBar();
         setValues();
-        if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+        if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
             deliveryBookBinding.llCostOfGoods.setVisibility(View.GONE);
 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setValues() {
 
         deliveryBookBinding.etPickupAddress.setText(deliveryDTO.getPickupaddress());
         deliveryBookBinding.etDropoffAddress.setText(deliveryDTO.getDropoffaddress());
-        deliveryBookBinding.etCostGood.setText(getString(R.string.us_dollar)+" "+deliveryDTO.getItemQuantity());
+        deliveryBookBinding.etCostGood.setText(getString(R.string.us_dollar) + " " + deliveryDTO.getItemQuantity());
 
         try {
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
-                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
-            }else {
-                    double basecharge=300.00;
-                if (Double.parseDouble(deliveryDTO.getItemQuantity())<=3000.00){
-                    deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+basecharge);
-                    ExtraServicecharge=basecharge;
-                }else if (Double.parseDouble(deliveryDTO.getItemQuantity())>3000.00){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
+                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
+            } else {
+                double basecharge = 200.00;
+                if (Double.parseDouble(deliveryDTO.getItemQuantity()) <= 2000.00) {
+                    ExtraServicecharge = basecharge;
+                   // deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + ExtraServicecharge);
+                } else if (Double.parseDouble(deliveryDTO.getItemQuantity()) > 2000.00) {
 
-                    Double ExtraItemCost=(Double.parseDouble(deliveryDTO.getItemQuantity())-3000.00)/1000.00;
-
-                   // double number = 24.4;
+                    Double ExtraItemCost = (Double.parseDouble(deliveryDTO.getItemQuantity()) - 2000.00) / 1000.00;
+                  //  Log.e(  "extra_charge","" + ExtraItemCost * 30.00);
+                    // double number = 24.4;
                     String numberAsString = String.valueOf(ExtraItemCost);
                     String decimalPart = numberAsString.split("\\.")[1];
                     //System.out.println(decimalPart);
-                    Log.e("decimalPart",""+decimalPart);
-                    if (Integer.parseInt(decimalPart)>0){
+                    Log.e("decimalPart", "" + decimalPart);
+                    if (Integer.parseInt(decimalPart) > 0) {
 
                         String myString = String.valueOf(ExtraItemCost);
                         String newString = myString.substring(0, myString.indexOf("."));
                         System.out.print(newString);
 
-                       int TotalExtraItemCost=(Integer.valueOf(newString))+1;
+                        TotalExtraItemCost = (Integer.parseInt(newString)) + 1;
+                        Log.e("decimalPart1", "" + TotalExtraItemCost);
+                        ExtraServicecharge=(TotalExtraItemCost*30.00)+basecharge;
 
-                        Log.e("decimalPart1",""+TotalExtraItemCost);
-
-                        ExtraServicecharge=(TotalExtraItemCost*50.00)+basecharge;
-                        Log.e("ExtraServicecharge",""+ExtraServicecharge+" extra_charge"+ExtraItemCost*50.00);
-
-                        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
-
-                        try {
-                            String price = ExtraServicecharge + "";
-                            if (price.contains(",")) {
-                                price = price.replaceAll(",", "");
-                            } else {
-                                price = ExtraServicecharge + "";
-                            }
-
-                            deliveryDTO.setDeliveryCost(String.format("%2f", price));
-                        }catch (Exception e){
-
-                        }
-
-                    }else {
-                        ExtraServicecharge=(ExtraItemCost*50.00)+basecharge;
+                    } else {
+                        ExtraServicecharge = (ExtraItemCost * 30.00) + basecharge;
                         //  Log.e("Extra_item_cost",""+ExtraItemCost+" extra_charge"+ExtraItemCost*50.00);
-                        Log.e("ExtraServicecharge",""+ExtraServicecharge+" extra_charge"+ExtraItemCost*50.00);
-                        deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar)+" "+ExtraServicecharge);
-
-                        try {
-                            String price = ExtraServicecharge + "";
-                            if (price.contains(",")) {
-                                price = price.replaceAll(",", "");
-                            } else {
-                                price = ExtraServicecharge + "";
-                            }
-
-                            deliveryDTO.setDeliveryCost(String.format("%2f", price));
-                        }catch (Exception e){
-
-                        }
+                        Log.e("ExtraServicecharge", "" + ExtraServicecharge + " extra_charge" + ExtraItemCost * 30.00);
+                       // deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + ExtraServicecharge);
                     }
-                    //**********************
+
+                }
+                //***********************************************
+                float disstance_km = Float.parseFloat(deliveryDTO.getDeliveryDistance());
+                //if total km>5km   ***condition
+                if (disstance_km > 5) {
+                    double PriviousServicecharge = ExtraServicecharge;
+                    float distanceExtra = disstance_km - 5;
+
+                    String numberAsextra = String.valueOf(distanceExtra);
+                    String decimalPart1 = numberAsextra.split("\\.")[1];
+                    //System.out.println(decimalPart);
+                    Log.e("decimalPartdd", "" + decimalPart1);
+
+                    if (Integer.parseInt(decimalPart1) > 0) {
+
+                        String myString1 = String.valueOf(distanceExtra);
+                        String newString1 = myString1.substring(0, myString1.indexOf("."));
+                        System.out.print(newString1);
+
+                        int TotalExtraItemCost1 = (Integer.parseInt(newString1)) + 1;
+
+                        Log.e("decimalPart1", "" + TotalExtraItemCost1);
+
+
+                        double ExtraCost = (double) TotalExtraItemCost1 * 6.00;
+
+                        ExtraServicecharge = PriviousServicecharge + ExtraCost;
+
+                        Log.e("extra_distance", "" + distanceExtra + " Extra_cost-" + ExtraCost);
+
+                    } else {
+                        double ExtraCost = (double) distanceExtra * 6.00;
+                        ExtraServicecharge = PriviousServicecharge + ExtraCost;
+                    }
+                }
+                //**********************************
+                deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + ExtraServicecharge);
+                try {
+                    String price = ExtraServicecharge + "";
+                    if (price.contains(",")) {
+                        price = price.replaceAll(",", "");
+                    } else {
+                        price = ExtraServicecharge + "";
+                    }
+
+                    deliveryDTO.setDeliveryCost(String.format("%2f", price));
+                } catch (Exception e) {
 
                 }
 
@@ -161,14 +180,14 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
         deliveryBookBinding.etDeliveryDate.setText(deliveryDTO.getDeliveryDate());
         deliveryBookBinding.etDeliveryTime.setText(deliveryDTO.getDeliveryTime());
-        if (deliveryDTO.getDeliveryDistance()!=null){
-            deliveryBookBinding.etDistance.setText(deliveryDTO.getDeliveryDistance() +" "+ getString(R.string.km));
-        }else {
-            deliveryBookBinding.etDistance.setText("-- "+ getString(R.string.km));
+        if (deliveryDTO.getDeliveryDistance() != null) {
+            deliveryBookBinding.etDistance.setText(deliveryDTO.getDeliveryDistance() + " " + getString(R.string.km));
+        } else {
+            deliveryBookBinding.etDistance.setText("-- " + getString(R.string.km));
         }
 
 
-        if (deliveryDTO.getVehicleType()==null){
+        if (deliveryDTO.getVehicleType() == null) {
             deliveryDTO.setVehicleType("Bike");
         }
         if (deliveryDTO.getVehicleType().equalsIgnoreCase(getString(R.string.bike))) {
@@ -194,23 +213,23 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
             //deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.tvServicePriText.setText("₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.");
+            deliveryBookBinding.tvServicePriText.setText("₱200 per transaction* – good for items worth 2K and below +₱30 for above 2k and for every additional 1k worth of goods thereafter +₱6/km in excess of 5km.");
         }
-       // else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("4HOUR")) {
+        // else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("4HOUR")) {
         //    deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
         //    deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
-       // }
+        // }
         else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("pick_deliver")) {
             deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
-           // deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.tvServicePriText.setText("₱250 per transaction +₱20/km in excess of 10 km Exemptions applied for items too heavy or too big to be carried by single travel.");
+            // deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
+            deliveryBookBinding.tvServicePriText.setText("₱100 per transaction + ₱6/km in excess of 5km.*");
         }
     }
 
     private void initToolBar() {
         if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
             deliveryBookBinding.toolbarTitle.setText("Pabili Order");
-        }else {
+        } else {
             deliveryBookBinding.toolbarTitle.setText("Pick&Deliver Order");
             deliveryBookBinding.tvPickText.setText("Pickup address");
         }
@@ -223,9 +242,10 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_submit:
                 Utilities.hideKeyboard(deliveryBookBinding.btnSubmit);
+                //  Log.e("dropOffAddress",deliveryDTO.getDropoffaddress());
                 callOrderBookApi();
                 break;
             case R.id.iv_back:
@@ -246,7 +266,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
 
             Map<String, String> map = new HashMap<>();
             map.put("user_id", appSession.getUser().getData().getUserId());
-           // map.put("pickup_comapny_name", deliveryDTO.getPickupComapnyName());
+            // map.put("pickup_comapny_name", deliveryDTO.getPickupComapnyName());
             map.put("pickup_first_name", deliveryDTO.getPickupFirstName());
             map.put("pickup_last_name", deliveryDTO.getPickupLastName());
             map.put("pickup_mob_number", deliveryDTO.getPickupMobNumber());
@@ -256,7 +276,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             map.put("delivery_date", deliveryDTO.getDeliveryDate());
             map.put("pickup_special_inst", deliveryDTO.getPickupSpecialInst());
 
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                 map.put("dropoff_first_name", deliveryDTO.getDropoffFirstName());
                 map.put("dropoff_last_name", deliveryDTO.getDropoffLastName());
                 map.put("dropoff_mob_number", deliveryDTO.getDropoffMobNumber());
@@ -264,50 +284,50 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             }
 
             //map.put("parcel_height", deliveryDTO.getParcelHeight());
-           // map.put("parcel_width", deliveryDTO.getParcelWidth());
-          //  map.put("parcel_lenght", deliveryDTO.getParcelLenght());
-          //  map.put("parcel_weight", deliveryDTO.getParcelWeight());
+            // map.put("parcel_width", deliveryDTO.getParcelWidth());
+            //  map.put("parcel_lenght", deliveryDTO.getParcelLenght());
+            //  map.put("parcel_weight", deliveryDTO.getParcelWeight());
+
             map.put("dropoffaddress", deliveryDTO.getDropoffaddress());
             map.put("dropOffLong", deliveryDTO.getDropoffLong());
             map.put("dropOffLat", deliveryDTO.getDropoffLat());
 
             map.put("delivery_type", deliveryDTO.getDeliveryType());
-            if (deliveryDTO.getDeliveryDistance()!=null){
+            if (deliveryDTO.getDeliveryDistance() != null) {
                 map.put("delivery_distance", deliveryDTO.getDeliveryDistance());
-            }else {
+            } else {
                 map.put("delivery_distance", " ");
             }
 
 
             try {
-                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+                if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                     map.put("delivery_cost", String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
-                }else {
-                    map.put("delivery_cost", String.format ("%.2f", ExtraServicecharge));
+                } else {
+                    map.put("delivery_cost", String.format("%.2f", ExtraServicecharge));
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-           // map.put("dropoff_comapny_name", deliveryDTO.getDropoffComapnyName());
+            // map.put("dropoff_comapny_name", deliveryDTO.getDropoffComapnyName());
             map.put("vehicle_type", "Bike");
             map.put("pickUpLat", deliveryDTO.getPickupLat());
             map.put("pickUpLong", deliveryDTO.getPickupLong());
 
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                 map.put("driver_delivery_cost", deliveryDTO.getDriverDeliveryCost());
-            }else {
+            } else {
                 map.put("driver_delivery_cost", "");
             }
 
-
             map.put("delivery_time", deliveryDTO.getDeliveryTime());
             map.put(PN_APP_TOKEN, APP_TOKEN);
-            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")){
+            if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                 map.put("dropoff_country_code", deliveryDTO.getDropoffCountryCode());
-            }else {
-                map.put("dropoff_country_code"," ");
+            } else {
+                map.put("dropoff_country_code", " ");
             }
 
             map.put("pickup_country_code", deliveryDTO.getPickupCountryCode());
@@ -325,8 +345,8 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                                 utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                       // ((DrawerContentSlideActivity) context).popAllFragment();
-                                        Intent intent=new Intent(getActivity(),DrawerContentSlideActivity.class);
+                                        // ((DrawerContentSlideActivity) context).popAllFragment();
+                                        Intent intent = new Intent(getActivity(), DrawerContentSlideActivity.class);
                                         startActivity(intent);
                                         getActivity().finish();
                                     }

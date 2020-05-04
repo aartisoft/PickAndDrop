@@ -337,7 +337,9 @@
     <string name="contact_us">Contact Us</string>
     <string name="shop_deliver_text_maps">Pabili (Shop&amp;Deliver)></string>
     <string name="pick_deliver_text_maps">Pickup&amp;Deliver></string>
-    <string name="service_charge_desc">₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.</string>
+<!--    <string name="service_charge_desc">₱300 per transaction for 3k and below worth of goods, +₱50 for above 3k and for additional 1k worth of goods thereafter.</string>-->
+    <string name="service_charge_desc">₱200 per transaction* – good for items worth 2K and below +₱30 for above 2k and for every additional 1k worth of goods thereafter +₱6/km in excess of 5km.</string>
+    <string name="service_exemption">*exemptions applied for items too heavy or too big to be carried by single travel.</string>
     <string name="faq">FAQ</string>
     <string name="accept_order">Accepted Orders</string>
     <string name="subject">Subject</string>

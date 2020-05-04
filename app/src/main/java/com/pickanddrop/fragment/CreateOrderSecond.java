@@ -302,35 +302,35 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                         if (vehicleType.equalsIgnoreCase(getString(R.string.bike))) {
                            // totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getMotorbike());
 
-                            if (distanceInkms<=10){
-                                totalDeliveryCost= Double.valueOf(250.00);
+                            if (distanceInkms<=5){
+                                totalDeliveryCost= 100.00;
                             }else {
-                                float distanceExtra=distanceInkms-10;
+                                float distanceExtra=distanceInkms-5;
 
                                 String numberAsString = String.valueOf(distanceExtra);
                                 String decimalPart = numberAsString.split("\\.")[1];
                                 //System.out.println(decimalPart);
                                 Log.e("decimalPart",""+decimalPart);
 
-                                if (Integer.valueOf(decimalPart)>0) {
+                                if (Integer.parseInt(decimalPart)>0) {
 
                                     String myString = String.valueOf(distanceExtra);
                                     String newString = myString.substring(0, myString.indexOf("."));
                                     System.out.print(newString);
 
-                                    int TotalExtraItemCost = (Integer.valueOf(newString)) + 1;
+                                    int TotalExtraItemCost = (Integer.parseInt(newString)) + 1;
 
                                     Log.e("decimalPart1", "" + TotalExtraItemCost);
 
 
-                                    Double ExtraCost=Double.valueOf(TotalExtraItemCost)*20.00;
-                                    totalDeliveryCost=Double.valueOf(250.00)+ExtraCost;
+                                    double ExtraCost= (double) TotalExtraItemCost *6.00;
+                                    totalDeliveryCost= 100.00 +ExtraCost;
 
                                     Log.e("extra_distance",""+distanceExtra+" Extra_cost-"+ExtraCost);
 
                                 }else {
-                                    Double ExtraCost=Double.valueOf(distanceExtra)*20.00;
-                                    totalDeliveryCost=Double.valueOf(250.00)+ExtraCost;
+                                    double ExtraCost= (double) distanceExtra *6.00;
+                                    totalDeliveryCost= 100.00 +ExtraCost;
                                 }
 
                             }
