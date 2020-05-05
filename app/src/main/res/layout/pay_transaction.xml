@@ -257,7 +257,7 @@
                             android:paddingStart="@dimen/activity_margin_medium"
                             android:paddingEnd="@dimen/activity_margin_medium"
                             android:paddingBottom="@dimen/text_margin_small"
-                            android:text="Send P50.00 Transaction fee via Gcash to 09474335971"
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/hint_color"
                             android:textAlignment="center"

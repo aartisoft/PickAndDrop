@@ -16,9 +16,11 @@ import com.pickanddrop.databinding.TermsFragmentBinding;
 import com.pickanddrop.utils.AppSession;
 import com.pickanddrop.utils.Utilities;
 
-import static com.pickanddrop.html_page.TermsConditions.Faq;
+import static com.pickanddrop.html_page.TermsConditions.Faq_customer;
+import static com.pickanddrop.html_page.TermsConditions.Faq_rider;
 import static com.pickanddrop.html_page.TermsConditions.Proce_Guide;
 import static com.pickanddrop.html_page.TermsConditions.TermsCond;
+import static com.pickanddrop.utils.AppConstants.DRIVER;
 import static com.pickanddrop.utils.AppConstants.PN_VALUE;
 
 /**
@@ -28,7 +30,7 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
     TermsFragmentBinding binding;
     private Context context;
     private String status;
-
+    private AppSession appSession;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +50,10 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         context = getActivity();
+        appSession = new AppSession(context);
         initToolbar();
         binding.ivBack.setOnClickListener(this);
-
 
     }
 
@@ -73,9 +74,13 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
         else if (status.equalsIgnoreCase("Faq")) {
             binding.toolbarTitle.setText("FAQ");
 
-            binding.webview.getSettings().setJavaScriptEnabled(true);
-            binding.webview.loadDataWithBaseURL("", Faq, "text/html", "UTF-8", "");
-
+            if (appSession.getUserType().equals(DRIVER)) {
+                binding.webview.getSettings().setJavaScriptEnabled(true);
+                binding.webview.loadDataWithBaseURL("", Faq_rider, "text/html", "UTF-8", "");
+            }else {
+                binding.webview.getSettings().setJavaScriptEnabled(true);
+                binding.webview.loadDataWithBaseURL("", Faq_customer, "text/html", "UTF-8", "");
+            }
         }
     }
 

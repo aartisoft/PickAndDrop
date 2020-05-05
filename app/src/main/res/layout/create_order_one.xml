@@ -198,7 +198,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin_normal_"
-                    android:autofillHints="@string/unit_txt"
                     android:hint="Delivery Address"
                     android:visibility="visible"
                     android:imeOptions="actionNext"
