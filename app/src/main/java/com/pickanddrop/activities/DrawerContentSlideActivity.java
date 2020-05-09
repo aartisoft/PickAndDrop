@@ -117,127 +117,6 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
     public static final int REQUEST_CHECK_SETTINGS = 6260;
     private FusedLocationProviderClient fusedLocationClient;
 
-/*    private void buildGoogleApiClient() {
-        if (mGoogleApiClient != null) {
-            return;
-        }
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .enableAutoManage(this, this)
-                .addApi(LocationServices.API)
-                .build();
-        createLocationRequest();
-    }
-
-    public void requestLocationUpdates() {
-        try {
-            Log.i(TAG, "Starting location updates");
-            LocationRequestHelper.setRequesting(this, true);
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                    mGoogleApiClient, mLocationRequest, getPendingIntent());
-        } catch (SecurityException e) {
-            LocationRequestHelper.setRequesting(this, false);
-            e.printStackTrace();
-        }
-    }
-
-    *//**
-     * Handles the Remove Updates button, and requests removal of location updates.
-     *//*
-    public void removeLocationUpdates() {
-        Log.i(TAG, "Removing location updates");
-        LocationRequestHelper.setRequesting(this, false);
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
-                getPendingIntent());
-    }
-
-
-    *//**
-     * Ensures that only one button is enabled at any time. The Start Updates button is enabled
-     * if the user is not requesting location updates. The Stop Updates button is enabled if the
-     * user is requesting location updates.
-     *//*
-    private void updateButtonsState(boolean requestingLocationUpdates) {
-        *//*if (appSession.getUserType().equals(DRIVER)) {
-            if (requestingLocationUpdates) {
-//                removeLocationUpdates();
-                requestLocationUpdates();
-            } else {
-                requestLocationUpdates();
-            }
-        } else {
-            removeLocationUpdates();
-        }*//*
-
-        requestLocationUpdates();
-    }
-
-    @Override
-    protected void onStop() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
-        super.onStop();
-    }
-
-
-    *//**
-     * Sets up the location request. Android has two location request settings:
-     * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
-     * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
-     * the AndroidManifest.xml.
-     * <p/>
-     * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
-     * interval (5 seconds), the Fused Location Provider API returns location updates that are
-     * accurate to within a few feet.
-     * <p/>
-     * These settings are appropriate for mapping applications that show real-time location
-     * updates.
-     *//*
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-
-        // Sets the fastest rate for active location updates. This interval is exact, and your
-        // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        // Sets the maximum time when batched location updates are delivered. Updates may be
-        // delivered sooner than this interval.
-        mLocationRequest.setMaxWaitTime(MAX_WAIT_TIME);
-//        requestLocationUpdates();
-
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.i(TAG, "GoogleApiClient connected");
-
-        updateButtonsState(LocationRequestHelper.getRequesting(this));
-    }
-
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(this, LocationUpdatesBroadcastReceiver.class);
-        intent.setAction(LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES);
-        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        final String text = "Connection suspended";
-        Log.w(TAG, text + ": Error code: " + i);
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        final String text = "Exception while connecting to Google Play services";
-        Log.w(TAG, text + ": " + connectionResult.getErrorMessage());
-    }*/
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -253,12 +132,35 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
 
         buildGoogleApiClient();
 
-        if (appSession.getUserType().equals(DRIVER)) {
-            replaceFragmentWithoutBack(R.id.container_main, new DriverHome(), "DriverHome");
+        try {// if recieve notification on click
+            if (getIntent()!=null){
+                if (getIntent().getStringExtra("Notification").equalsIgnoreCase("Notification")){
+                    CurrentList currentList = new CurrentList();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(PN_NAME, PN_NAME);
+                    currentList.setArguments(bundle);
+                    replaceFragmentWithoutBack(R.id.container_main, currentList, "CurrentList");
+                }
 
-        } else {
-            replaceFragmentWithoutBack(R.id.container_main, new Home(), "Home");
+            }else {// direct open the app
+                if (appSession.getUserType().equals(DRIVER)) {
+                    replaceFragmentWithoutBack(R.id.container_main, new DriverHome(), "DriverHome");
+
+                } else {
+                    replaceFragmentWithoutBack(R.id.container_main, new Home(), "Home");
+                }
+            }
+
+        }catch (Exception e){
+            if (appSession.getUserType().equals(DRIVER)) {
+                replaceFragmentWithoutBack(R.id.container_main, new DriverHome(), "DriverHome");
+
+            } else {
+                replaceFragmentWithoutBack(R.id.container_main, new Home(), "Home");
+            }
         }
+
+
     }
 
     private void initView() {

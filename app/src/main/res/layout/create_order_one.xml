@@ -331,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin_normal_"
                     android:autofillHints="@string/subrub_txt"
-                    android:hint="@string/item_cost_txt"
+                    android:hint="Estimated Cost of all Items"
                     android:imeOptions="actionNext"
                     android:inputType="number" />
 

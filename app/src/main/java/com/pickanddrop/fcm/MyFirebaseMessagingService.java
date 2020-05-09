@@ -231,6 +231,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if(appSession.isLogin()){
                 intent = new Intent(getApplicationContext(), DrawerContentSlideActivity.class);
                 intent.putExtras(bundle);
+                intent.putExtra("Notification","Notification");
 //                startActivity(intent);
             }else {
                 intent = new Intent(getApplicationContext(), SplashActivity.class);

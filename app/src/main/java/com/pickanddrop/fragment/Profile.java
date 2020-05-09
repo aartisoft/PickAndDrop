@@ -112,6 +112,7 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
 
 
         if (appSession.getUserType().equalsIgnoreCase(DRIVER)) {
+            signUpBinding.tvLoginId.setText("Riders ID No.- "+appSession.getUser().getData().getUserId());
             signUpBinding.etVehicleNumber.setText(appSession.getUser().getData().getVehicleNo());
             signUpBinding.etRegistration.setText(appSession.getUser().getData().getVehicleRegNo());
             signUpBinding.etDob.setText(appSession.getUser().getData().getDob());
@@ -123,6 +124,8 @@ public class Profile extends Fragment implements AppConstants, View.OnClickListe
                     break;
                 }
             }
+        }else {
+            signUpBinding.tvLoginId.setText("Customer ID No.- "+appSession.getUser().getData().getUserId());
         }
     }
 

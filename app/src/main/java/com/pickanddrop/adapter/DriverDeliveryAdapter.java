@@ -87,7 +87,8 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
             viewHolder.tvPrice.setVisibility(View.GONE);
 
             viewHolder.tvDeliveryId.setText(context.getString(R.string.delivery_id_txt) +" - "+ deliveryDTOArrayList.get(position).getOrderId());
-            viewHolder.tvDeliveryDate.setText(context.getString(R.string.delivery_datein_txt) +" - "+ deliveryDTOArrayList.get(position).getDeliveryDate());
+            viewHolder.tvDeliveryDate.setText(context.getString(R.string.delivery_datein_txt) +" - "+ deliveryDTOArrayList.get(position).getDeliveryDate()+ " "
+                    + deliveryDTOArrayList.get(position).getDeliveryTime());
             viewHolder.tvPickLoc.setText(context.getString(R.string.pickup_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getPickupaddress());
             viewHolder.tvDropLoc.setText(context.getString(R.string.delivery_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getDropoffaddress());
 
@@ -140,7 +141,8 @@ public class DriverDeliveryAdapter extends RecyclerView.Adapter<DriverDeliveryAd
 
 
             viewHolder.tvDeliveryId.setText(context.getString(R.string.delivery_id_txt) +" - "+ deliveryDTOArrayList.get(position).getOrderId());
-            viewHolder.tvDeliveryDate.setText(context.getString(R.string.delivery_datein_txt) +" - "+ deliveryDTOArrayList.get(position).getDeliveryDate());
+            viewHolder.tvDeliveryDate.setText(context.getString(R.string.delivery_datein_txt) +" - "+ deliveryDTOArrayList.get(position).getDeliveryDate()+ " "
+                    + deliveryDTOArrayList.get(position).getDeliveryTime());
 
             viewHolder.tvDropLoc.setText(context.getString(R.string.delivery_loc_txt) +" - "+ deliveryDTOArrayList.get(position).getDropoffaddress());
 
