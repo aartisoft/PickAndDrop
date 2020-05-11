@@ -167,6 +167,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                    sendNotification(remoteMessage.getData(), new Intent());
 //                                }
 //                            }
+                }else {
+                    sendNotification(remoteMessage.getData(), new Intent());
                 }
             } else {
                 sendNotification(remoteMessage.getData(), new Intent());

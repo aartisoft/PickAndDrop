@@ -2,6 +2,7 @@ package com.pickanddrop.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,12 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
@@ -79,6 +83,10 @@ import com.pickanddrop.utils.OnTaskCompleted;
 import com.pickanddrop.utils.Utilities;
 
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -129,6 +137,8 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         initView();
         setLanguage(ENGLISH);
         setProfile();
+        getCurrentVersion();//check update version
+
 
         buildGoogleApiClient();
 
@@ -161,6 +171,89 @@ public class DrawerContentSlideActivity extends AppCompatActivity implements App
         }
 
 
+    }
+
+    String currentVersion, latestVersion;
+    Dialog dialog;
+    private void getCurrentVersion(){
+        PackageManager pm = this.getPackageManager();
+        PackageInfo pInfo = null;
+
+        try {
+            pInfo =  pm.getPackageInfo(this.getPackageName(),0);
+
+        } catch (PackageManager.NameNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        currentVersion = pInfo.versionName;
+
+        new GetLatestVersion().execute();
+
+    }
+    private class GetLatestVersion extends AsyncTask<String, String, JSONObject> {
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            try {
+//It retrieves the latest version by scraping the content of current version from play store at runtime
+                Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+context.getPackageName()+"&hl=en").get();
+                latestVersion = doc.getElementsByClass("htlgb").get(6).text();
+
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
+
+            return new JSONObject();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            if(latestVersion!=null) {
+                if (!currentVersion.equalsIgnoreCase(latestVersion)){
+                    if(!isFinishing()){ //This would help to prevent Error : BinderProxy@45d459c0 is not valid; is your activity running? error
+                        showUpdateDialog();
+                    }
+                }
+            }
+            else
+               // background.start();
+            super.onPostExecute(jsonObject);
+        }
+    }
+
+    private void showUpdateDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+     //   builder.setTitle("A New Update is Available");
+        builder.setTitle("New version available");
+        builder.setMessage("Please, update app to new version to continue responding.");
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+                        ("market://details?id=" + context.getPackageName())));
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //background.start();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(false);
+        dialog = builder.show();
     }
 
     private void initView() {

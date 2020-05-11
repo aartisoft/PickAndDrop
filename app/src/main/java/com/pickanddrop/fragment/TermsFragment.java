@@ -1,10 +1,14 @@
 package com.pickanddrop.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,6 +61,7 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initToolbar() {
         if (status.equalsIgnoreCase("Terms")) {
             binding.toolbarTitle.setText("Terms & Conditions");
@@ -68,8 +73,9 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
             binding.toolbarTitle.setText("Guidelines & Procedures");
 
             binding.webview.getSettings().setJavaScriptEnabled(true);
-            binding.webview.loadDataWithBaseURL("", Proce_Guide, "text/html", "UTF-8", "");
-
+          binding.webview.loadDataWithBaseURL("", Proce_Guide, "text/html", "UTF-8", "");
+           // binding.webview.loadUrl("http://pabiliph.com/admin_panel/guidline.html");
+           // startWebView("http://pabiliph.com/admin_panel/guidline.html");
         }
         else if (status.equalsIgnoreCase("Faq")) {
             binding.toolbarTitle.setText("FAQ");
@@ -82,6 +88,50 @@ public class TermsFragment extends BaseFragment implements View.OnClickListener 
                 binding.webview.loadDataWithBaseURL("", Faq_customer, "text/html", "UTF-8", "");
             }
         }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void startWebView(String url) {
+        //Create new webview Client to show progress dialog
+        //When opening a url or click on link
+
+        binding.webview.setWebViewClient(new WebViewClient() {
+            ProgressDialog progressDialog;
+
+            //If you will not use this method url links are opeen in new brower not in webview
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            //Show loader on url load
+            public void onLoadResource (WebView view, String url) {
+                if (progressDialog == null) {
+                    // in standard case YourActivity.this
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                }
+            }
+            public void onPageFinished(WebView view, String url) {
+                try{
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                    }
+                }catch(Exception exception){
+                    exception.printStackTrace();
+                }
+            }
+
+        });
+
+        // Javascript inabled on webview
+        binding.webview.getSettings().setJavaScriptEnabled(true);
+
+        //Load url in webview
+        binding.webview.loadUrl(url);
+
     }
 
 
