@@ -88,9 +88,9 @@ public class PayTransaction extends BaseFragment implements View.OnClickListener
         binding.tvDeliveryTime.setText(getString(R.string.delivery_time) +" - "+ deliveryDTO.getDeliveryTime());
 
         if (deliveryDTO.getDeliveryType().equals("shop_deliver")){
-            binding.tvTransAmt.setText("Send ₱20"+" Transaction fee via Gcash to 09198777107");
+            binding.tvTransAmt.setText("Send ₱16"+" Transaction fee via Gcash to 09198777107");
         }else {
-            binding.tvTransAmt.setText("Send ₱10"+" Transaction fee via Gcash to 09198777107");
+            binding.tvTransAmt.setText("Send ₱6"+" Transaction fee via Gcash to 09198777107");
         }
 
     }

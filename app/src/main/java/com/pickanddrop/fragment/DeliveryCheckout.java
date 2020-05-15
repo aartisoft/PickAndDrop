@@ -92,7 +92,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
             if (!deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + String.format("%.2f", Double.parseDouble(deliveryDTO.getDeliveryCost())));
             } else {
-                double basecharge = 200.00;
+                double basecharge = 160.00;
                 if (Double.parseDouble(deliveryDTO.getItemQuantity()) <= 2000.00) {
                     ExtraServicecharge = basecharge;
                    // deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + ExtraServicecharge);
@@ -126,9 +126,10 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                 //***********************************************
                 float disstance_km = Float.parseFloat(deliveryDTO.getDeliveryDistance());
                 //if total km>5km   ***condition
-                if (disstance_km > 5) {
+              //  if (disstance_km > 5) {
                     double PriviousServicecharge = ExtraServicecharge;
-                    float distanceExtra = disstance_km - 5;
+                  //  float distanceExtra = disstance_km - 5;
+                    float distanceExtra = disstance_km;
 
                     String numberAsextra = String.valueOf(distanceExtra);
                     String decimalPart1 = numberAsextra.split("\\.")[1];
@@ -156,7 +157,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
                         double ExtraCost = (double) distanceExtra * 6.00;
                         ExtraServicecharge = PriviousServicecharge + ExtraCost;
                     }
-                }
+              //  }
                 //**********************************
                 deliveryBookBinding.etPrice.setText(getString(R.string.us_dollar) + " " + ExtraServicecharge);
                 try {
@@ -213,7 +214,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         if (deliveryDTO.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
             //deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
             deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.tvServicePriText.setText("₱200 per transaction* – good for items worth 2K and below +₱30 for above 2k and for every additional 1k worth of goods thereafter +₱6/km in excess of 5km.");
+            deliveryBookBinding.tvServicePriText.setText("₱160 per transaction* – good for items worth 2K and below +₱30 for above 2k and for every additional 1k worth of goods thereafter +₱6/km.*");
         }
         // else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("4HOUR")) {
         //    deliveryBookBinding.btnSame.setAlpha(Float.parseFloat("0.4"));
@@ -222,7 +223,7 @@ public class DeliveryCheckout extends BaseFragment implements AppConstants, View
         else if (deliveryDTO.getDeliveryType().equalsIgnoreCase("pick_deliver")) {
             deliveryBookBinding.btnTwo.setAlpha(Float.parseFloat("0.4"));
             // deliveryBookBinding.btnFour.setAlpha(Float.parseFloat("0.4"));
-            deliveryBookBinding.tvServicePriText.setText("₱100 per transaction + ₱6/km in excess of 5km.*");
+            deliveryBookBinding.tvServicePriText.setText("₱60 per transaction + ₱6/km*");
         }
     }
 

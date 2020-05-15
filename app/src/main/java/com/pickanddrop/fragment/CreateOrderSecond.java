@@ -302,10 +302,12 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
                         if (vehicleType.equalsIgnoreCase(getString(R.string.bike))) {
                            // totalDeliveryCost = distanceInkms * Double.parseDouble(otherDTO.getVehicle().getMotorbike());
 
-                            if (distanceInkms<=5){
-                                totalDeliveryCost= 100.00;
-                            }else {
-                                float distanceExtra=distanceInkms-5;
+                            double basecharge = 60.00;
+//                            if (distanceInkms<=5){
+//                                totalDeliveryCost= basecharge;
+//                            }else {
+                              //  float distanceExtra=distanceInkms-5;
+                                float distanceExtra=distanceInkms;
 
                                 String numberAsString = String.valueOf(distanceExtra);
                                 String decimalPart = numberAsString.split("\\.")[1];
@@ -324,16 +326,16 @@ public class CreateOrderSecond extends BaseFragment implements AppConstants, Vie
 
 
                                     double ExtraCost= (double) TotalExtraItemCost *6.00;
-                                    totalDeliveryCost= 100.00 +ExtraCost;
+                                    totalDeliveryCost= basecharge +ExtraCost;
 
                                     Log.e("extra_distance",""+distanceExtra+" Extra_cost-"+ExtraCost);
 
                                 }else {
                                     double ExtraCost= (double) distanceExtra *6.00;
-                                    totalDeliveryCost= 100.00 +ExtraCost;
+                                    totalDeliveryCost= basecharge +ExtraCost;
                                 }
 
-                            }
+                           // }
 
                         }
 

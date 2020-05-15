@@ -203,6 +203,12 @@ public class DeliveryDetails extends BaseFragment implements AppConstants, View.
                                 deliveryDetailsBinding.tvDropMobile.setText(getString(R.string.mob_no_txt) + " - " + data.getDropoffMobNumber());
                                 deliveryDetailsBinding.tvDropAddress.setText("Delivery address" + " - " + data.getDropoffaddress());
 
+                                if (data.getDeliveryType().equalsIgnoreCase("shop_deliver")) {
+                                    deliveryDetailsBinding.tvSpecialInst.setText(data.getPickupSpecialInst());
+                                }else {
+                                    deliveryDetailsBinding.tvSpecialInst.setText(data.getDropoffSpecialInst());
+                                }
+
                                 if (data.getDeliveryType().equalsIgnoreCase("shop_deliver")){
                                    deliveryDetailsBinding.tvDropOffHeading.setText("Shop/pickup location");
                                    deliveryDetailsBinding.tvDeliHead.setText("Delivery address");
