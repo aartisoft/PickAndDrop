@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_extra_normal"
                     android:text=""
+                    android:fontFamily="@font/titillium_regular"
                     android:textAlignment="center"
                     android:textColor="@color/white_color" />
 

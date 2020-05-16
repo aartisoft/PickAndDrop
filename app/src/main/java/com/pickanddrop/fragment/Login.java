@@ -32,6 +32,7 @@ import com.pickanddrop.databinding.LogInBinding;
 import com.pickanddrop.dto.LoginDTO;
 import com.pickanddrop.utils.AppConstants;
 import com.pickanddrop.utils.AppSession;
+import com.pickanddrop.utils.OnDialogConfirmListener;
 import com.pickanddrop.utils.PermissionUtil;
 import com.pickanddrop.utils.Utilities;
 
@@ -144,7 +145,35 @@ public class Login extends BaseFragment implements AppConstants, View.OnClickLis
                                 startActivity(new Intent(context, DrawerContentSlideActivity.class));
                                 getActivity().finish();
                             } else {
-                                utilities.dialogOK(context, "", response.body().getMessage(), context.getString(R.string.ok), false);
+                               // utilities.dialogOK(context, "", response.body().getMessage(), context.getString(R.string.ok), false);
+                                if (response.body().getVarify_status().equalsIgnoreCase("false")){
+                                    try {
+                                        utilities.dialogOKre(context, "", response.body().getMessage(), getString(R.string.ok), new OnDialogConfirmListener() {
+                                            @Override
+                                            public void onYes() {
+
+                                                Bundle bundle = new Bundle();
+                                                OtpVerify otpVerify = new OtpVerify();
+                                                bundle.putString("PhoneNumber", email);
+                                                otpVerify.setArguments(bundle);
+                                                addFragmentWithoutRemove(R.id.container_splash, otpVerify, "OtpVerify");
+
+                                            }
+
+                                            @Override
+                                            public void onNo() {
+
+                                            }
+                                        });
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }else {
+                                    utilities.dialogOK(context, "", response.body().getMessage(), context.getString(R.string.ok), false);
+                                }
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

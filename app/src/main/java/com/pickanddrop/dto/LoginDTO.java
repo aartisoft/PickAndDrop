@@ -16,12 +16,23 @@ public class LoginDTO {
         @SerializedName("message")
         @Expose
         private String message;
+        @SerializedName("varify_status")
+        @Expose
+        private String varify_status;
 
         public String getResult() {
             return result;
         }
 
-        public void setResult(String result) {
+    public String getVarify_status() {
+        return varify_status;
+    }
+
+    public void setVarify_status(String varify_status) {
+        this.varify_status = varify_status;
+    }
+
+    public void setResult(String result) {
             this.result = result;
         }
 

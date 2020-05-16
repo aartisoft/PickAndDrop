@@ -131,4 +131,12 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("pay_txn_fee")
     Call<LoginDTO> callTxnPayApi(@FieldMap Map<String, String> partMap);
+
+    @FormUrlEncoded
+    @POST("otp_varification")
+    Call<LoginDTO> callVerifyApi(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("otp_resend")
+    Call<LoginDTO> callVerifyResendApi(@FieldMap Map<String, String> map);
 }

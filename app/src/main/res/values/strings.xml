@@ -348,4 +348,9 @@
     <string name="reference_no">Reference No.</string>
     <string name="please_enter_driving_licence">Please enter Driving Licence Number</string>
     <string name="driver_licence">Driver licence number</string>
+    <string name="otp_verify">Otp Verification</string>
+    <string name="resend_code">Resend code</string>
+    <string name="verify_otp">Verify Otp</string>
+    <string name="verification_code">Verification code</string>
+    <string name="enter_verification_code">Please enter the verification code send to</string>
 </resources>

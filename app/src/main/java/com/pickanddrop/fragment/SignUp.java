@@ -611,7 +611,12 @@ public class SignUp extends BaseFragment implements AppConstants, View.OnClickLi
                                 utilities.dialogOKre(context, "", response.body().getMessage(), context.getString(R.string.ok), new OnDialogConfirmListener() {
                                     @Override
                                     public void onYes() {
-                                        ((SplashActivity) context).popFragment();
+                                       // ((SplashActivity) context).popFragment();
+                                        Bundle bundle = new Bundle();
+                                        OtpVerify otpVerify = new OtpVerify();
+                                        bundle.putString("PhoneNumber", mobile);
+                                        otpVerify.setArguments(bundle);
+                                        addFragmentWithoutRemove(R.id.container_splash, otpVerify, "OtpVerify");
                                     }
 
                                     @Override
